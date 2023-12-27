@@ -28,13 +28,13 @@ export const currentGameInfoListener = () => {
 
 export const suspendEventListener = () => {
   try {
-    const unregister = SteamClient.System.RegisterForOnResumeFromSuspend(
+    const results = SteamClient.System.RegisterForOnResumeFromSuspend(
       async () => {
         store.dispatch(resumeAction());
       }
     );
 
-    return unregister;
+    return results;
   } catch (e) {
     console.log(e);
   }

@@ -15,6 +15,10 @@ import { VFC } from "react";
 import { FaShip } from "react-icons/fa";
 
 import logo from "../assets/logo.png";
+import { currentGameInfoListener, suspendEventListener } from "./steamListeners";
+import { registerServerApi } from "./backend/utils";
+import { Provider } from "react-redux";
+import { store } from "./redux-modules/store";
 
 // interface AddMethodArgs {
 //   left: number;
@@ -89,17 +93,35 @@ const DeckyPluginRouterTest: VFC = () => {
   );
 };
 
+const AppContainer: VFC<{ serverAPI: ServerAPI }> = ({serverAPI}) => {
+
+  return (
+    <Provider store={store}>
+      <Content serverAPI={serverAPI}/>
+    </Provider>
+  )
+}
+
 export default definePlugin((serverApi: ServerAPI) => {
+  registerServerApi(serverApi);
+
   serverApi.routerHook.addRoute("/decky-plugin-test", DeckyPluginRouterTest, {
     exact: true,
   });
 
+  const unsubscribeToCurrentId = currentGameInfoListener()
+  const unsubscribeToSuspendEvent = suspendEventListener()
+
   return {
     title: <div className={staticClasses.Title}>Example Plugin</div>,
-    content: <Content serverAPI={serverApi} />,
+    content: <AppContainer serverAPI={serverApi} />,
     icon: <FaShip />,
     onDismount() {
       serverApi.routerHook.removeRoute("/decky-plugin-test");
+      unsubscribeToCurrentId()
+      if(unsubscribeToSuspendEvent) {
+        unsubscribeToSuspendEvent?.unregister()
+      }
     },
   };
 });
