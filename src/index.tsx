@@ -15,7 +15,7 @@ import { VFC } from "react";
 import { FaShip } from "react-icons/fa";
 
 import logo from "../assets/logo.png";
-import { currentGameInfoListener, suspendEventListener } from "./steamListeners";
+import { registerForAppLifetimeNotifications, suspendEventListener } from "./steamListeners";
 import { registerServerApi } from "./backend/utils";
 import { Provider } from "react-redux";
 import { store } from "./redux-modules/store";
@@ -109,7 +109,7 @@ export default definePlugin((serverApi: ServerAPI) => {
     exact: true,
   });
 
-  const unsubscribeToCurrentId = currentGameInfoListener()
+  const unregister = registerForAppLifetimeNotifications()
   const unsubscribeToSuspendEvent = suspendEventListener()
 
   return {
@@ -118,9 +118,9 @@ export default definePlugin((serverApi: ServerAPI) => {
     icon: <FaShip />,
     onDismount() {
       serverApi.routerHook.removeRoute("/decky-plugin-test");
-      unsubscribeToCurrentId()
+      unregister()
       if(unsubscribeToSuspendEvent) {
-        unsubscribeToSuspendEvent?.unregister()
+        unsubscribeToSuspendEvent()
       }
     },
   };

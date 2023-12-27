@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { setCurrentGameId, setInitialState } from './extraActions';
+import { setCurrentGameInfo, setInitialState } from './extraActions';
 import { RootState } from './store';
 
 type UiStateType = {
@@ -27,7 +27,7 @@ export const uiSlice = createSlice({
     builder.addCase(setInitialState, (state, action) => {
       if (action) state.initialLoading = false;
     });
-    builder.addCase(setCurrentGameId, (state, action) => {
+    builder.addCase(setCurrentGameInfo, (state, action) => {
       if (action?.payload) {
         state.currentGameId = action.payload.currentGameId;
         state.currentDisplayName = action.payload.displayName

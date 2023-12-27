@@ -13,13 +13,13 @@ export const getServerApi = () => {
   return serverApi;
 };
 
-export const extractDisplayName = () => `${Router.MainRunningApp?.display_name || 'default'}`
+export const extractCurrentGameDisplayName = () => `${Router.MainRunningApp?.display_name || 'default'}`
 
 export const extractCurrentGameId = () =>
   `${Router.MainRunningApp?.appid || 'default'}`;
 
 export const extractCurrentGameInfo = () => {
-  const displayName = extractDisplayName()
+  const displayName = extractCurrentGameDisplayName()
   const currentGameId = extractCurrentGameId()
 
   return { displayName, currentGameId }
