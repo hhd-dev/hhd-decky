@@ -26,6 +26,7 @@ export const uiSlice = createSlice({
     },
     setAuthToken: (state, action: PayloadAction<string> ) => {
       state.authToken = action.payload;
+      state.initialLoading = false;
     }
   },
   extraReducers: (builder) => {
@@ -41,7 +42,7 @@ export const uiSlice = createSlice({
   }
 });
 
-export const getInitialLoading = (state: RootState) => state.ui.initialLoading;
+export const selectInitialLoading = (state: RootState) => state.ui.initialLoading;
 
 const selectCurrentGameId = (state: RootState) => state.ui?.currentGameId || 'default';
 

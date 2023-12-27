@@ -19,68 +19,20 @@ import { registerForAppLifetimeNotifications, suspendEventListener } from "./ste
 import { registerServerApi } from "./backend/utils";
 import { Provider, useSelector } from "react-redux";
 import { store } from "./redux-modules/store";
-import { selectAuthToken, selectCurrentGameInfo, uiSlice } from "./redux-modules/uiSlice";
+import { selectAuthToken, selectCurrentGameInfo, selectInitialLoading, uiSlice } from "./redux-modules/uiSlice";
 
-// interface AddMethodArgs {
-//   left: number;
-//   right: number;
-// }
 
 const Content: VFC<{ serverAPI: ServerAPI }> = ({serverAPI}) => {
-  // const [result, setResult] = useState<number | undefined>();
-
-  // const onClick = async () => {
-  //   const result = await serverAPI.callPluginMethod<AddMethodArgs, number>(
-  //     "add",
-  //     {
-  //       left: 2,
-  //       right: 2,
-  //     }
-  //   );
-  //   if (result.success) {
-  //     setResult(result.result);
-  //   }
-  // };
   const { gameId, displayName } = useSelector(selectCurrentGameInfo)
   const authToken = useSelector(selectAuthToken)
+  const loading = useSelector(selectInitialLoading)
+
+  if(loading) {
+    return null;
+  }
 
   return (
     <PanelSection title={`${gameId} ${displayName} ${authToken}`}>
-      {/* <PanelSectionRow>
-        <ButtonItem
-          layout="below"
-          onClick={(e) =>
-            showContextMenu(
-              <Menu label="Menu" cancelText="CAAAANCEL" onCancel={() => {}}>
-                <MenuItem onSelected={() => {}}>Item #1</MenuItem>
-                <MenuItem onSelected={() => {}}>Item #2</MenuItem>
-                <MenuItem onSelected={() => {}}>Item #3</MenuItem>
-              </Menu>,
-              e.currentTarget ?? window
-            )
-          }
-        >
-          Server says yolo
-        </ButtonItem>
-      </PanelSectionRow>
-
-      <PanelSectionRow>
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <img src={logo} />
-        </div>
-      </PanelSectionRow>
-
-      <PanelSectionRow>
-        <ButtonItem
-          layout="below"
-          onClick={() => {
-            Router.CloseSideMenus();
-            Router.Navigate("/decky-plugin-test");
-          }}
-        >
-          Router
-        </ButtonItem>
-      </PanelSectionRow> */}
     </PanelSection>
   );
 };
@@ -118,7 +70,6 @@ export default definePlugin((serverApi: ServerAPI) => {
     content: <AppContainer serverAPI={serverApi} />,
     icon: <FaShip />,
     onDismount() {
-      serverApi.routerHook.removeRoute("/decky-plugin-test");
       unregister()
       if(unsubscribeToSuspendEvent) {
         unsubscribeToSuspendEvent()
