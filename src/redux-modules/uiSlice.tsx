@@ -7,12 +7,14 @@ type UiStateType = {
   initialLoading: boolean;
   currentGameId: string;
   currentDisplayName: string;
+  authToken?: string
 };
 
 const initialState: UiStateType = {
   initialLoading: true,
   currentGameId: 'default',
   currentDisplayName: 'default',
+  authToken: undefined
 };
 
 export const uiSlice = createSlice({
@@ -21,6 +23,9 @@ export const uiSlice = createSlice({
   reducers: {
     setInitialLoading: (state, action: PayloadAction<boolean>) => {
       state.initialLoading = action.payload;
+    },
+    setAuthToken: (state, action: PayloadAction<string> ) => {
+      state.authToken = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -48,3 +53,5 @@ export const selectCurrentGameInfo = (state: RootState) => {
 
   return { gameId, displayName }
 }
+
+export const selectAuthToken = (state: RootState) => state.ui.authToken;

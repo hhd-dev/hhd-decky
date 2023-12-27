@@ -5,6 +5,7 @@ import os
 # or add the `decky-loader/plugin` path to `python.analysis.extraPaths` in `.vscode/settings.json`
 import decky_plugin
 
+HHD_TOKEN_PATH = "~/.config/hhd/token"
 
 class Plugin:
     # A normal method. It can be called from JavaScript using call_plugin_function("method_1", argument1, argument2)
@@ -19,6 +20,16 @@ class Plugin:
     async def _unload(self):
         decky_plugin.logger.info("Goodbye World!")
         pass
+
+    async def retreive_hhd_token(self):
+        try:
+            decky_plugin.logger.info(f"retrieving token")
+
+            if os.path.exists(HHD_TOKEN_PATH):
+                return open(HHD_TOKEN_PATH, 'r').read()
+        except Exception as e:
+            decky_plugin.logger.error(f"failure retrieving token {e}")
+            return False
 
     # Migrations that should be performed before entering `_main()`.
     async def _migration(self):

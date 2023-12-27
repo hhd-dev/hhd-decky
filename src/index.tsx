@@ -17,8 +17,9 @@ import { FaShip } from "react-icons/fa";
 import logo from "../assets/logo.png";
 import { registerForAppLifetimeNotifications, suspendEventListener } from "./steamListeners";
 import { registerServerApi } from "./backend/utils";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import { store } from "./redux-modules/store";
+import { selectAuthToken, selectCurrentGameInfo, uiSlice } from "./redux-modules/uiSlice";
 
 // interface AddMethodArgs {
 //   left: number;
@@ -40,9 +41,11 @@ const Content: VFC<{ serverAPI: ServerAPI }> = ({serverAPI}) => {
   //     setResult(result.result);
   //   }
   // };
+  const { gameId, displayName } = useSelector(selectCurrentGameInfo)
+  const authToken = useSelector(selectAuthToken)
 
   return (
-    <PanelSection title="Panel Section">
+    <PanelSection title={`${gameId} ${displayName} ${authToken}`}>
       <PanelSectionRow>
         <ButtonItem
           layout="below"
@@ -111,6 +114,18 @@ export default definePlugin((serverApi: ServerAPI) => {
 
   const unregister = registerForAppLifetimeNotifications()
   const unsubscribeToSuspendEvent = suspendEventListener()
+
+  serverApi.callPluginMethod('retrieve_hhd_token', {}).then(
+    result =>{
+      if (result.success) {
+        const authToken = JSON.stringify(result.result) || '';
+  
+        store.dispatch(
+          uiSlice.actions.setAuthToken(authToken)
+        );
+      }
+    }
+  );
 
   return {
     title: <div className={staticClasses.Title}>Example Plugin</div>,
