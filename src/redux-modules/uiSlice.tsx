@@ -42,7 +42,7 @@ export const uiSlice = createSlice({
   }
 });
 
-export const selectInitialLoading = (state: RootState) => state.ui.initialLoading;
+export const selectInitialLoading = (state: RootState) => state.ui?.initialLoading;
 
 const selectCurrentGameId = (state: RootState) => state.ui?.currentGameId || 'default';
 
@@ -55,4 +55,4 @@ export const selectCurrentGameInfo = (state: RootState) => {
   return { gameId, displayName }
 }
 
-export const selectAuthToken = (state: RootState) => state.ui.authToken;
+export const selectAuthToken = (state: RootState) => state.ui?.authToken;
