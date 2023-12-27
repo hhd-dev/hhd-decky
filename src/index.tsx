@@ -46,7 +46,7 @@ const Content: VFC<{ serverAPI: ServerAPI }> = ({serverAPI}) => {
 
   return (
     <PanelSection title={`${gameId} ${displayName} ${authToken}`}>
-      <PanelSectionRow>
+      {/* <PanelSectionRow>
         <ButtonItem
           layout="below"
           onClick={(e) =>
@@ -80,21 +80,11 @@ const Content: VFC<{ serverAPI: ServerAPI }> = ({serverAPI}) => {
         >
           Router
         </ButtonItem>
-      </PanelSectionRow>
+      </PanelSectionRow> */}
     </PanelSection>
   );
 };
 
-const DeckyPluginRouterTest: VFC = () => {
-  return (
-    <div style={{ marginTop: "50px", color: "white" }}>
-      Hello World!
-      <DialogButton onClick={() => Router.NavigateToLibraryTab()}>
-        Go to Library
-      </DialogButton>
-    </div>
-  );
-};
 
 const AppContainer: VFC<{ serverAPI: ServerAPI }> = ({serverAPI}) => {
 
@@ -107,10 +97,6 @@ const AppContainer: VFC<{ serverAPI: ServerAPI }> = ({serverAPI}) => {
 
 export default definePlugin((serverApi: ServerAPI) => {
   registerServerApi(serverApi);
-
-  serverApi.routerHook.addRoute("/decky-plugin-test", DeckyPluginRouterTest, {
-    exact: true,
-  });
 
   const unregister = registerForAppLifetimeNotifications()
   const unsubscribeToSuspendEvent = suspendEventListener()
