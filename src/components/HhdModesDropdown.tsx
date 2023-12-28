@@ -8,7 +8,7 @@ type DropdownProps = {
   title: string;
   depth: number;
   state: any;
-  fullPath: string;
+  statePath: string;
   hint?: string;
   renderChild: any;
 };
@@ -21,7 +21,7 @@ const HhdModesDropdown: FC<DropdownProps> = ({
   hint,
   depth,
   state,
-  fullPath,
+  statePath,
   renderChild,
 }) => {
   const dropdownOptions = Object.entries(modes).map(([value, { title }]) => {
@@ -71,7 +71,7 @@ const HhdModesDropdown: FC<DropdownProps> = ({
             depth: depth + 1,
             parentType: type,
             state,
-            fullPath: `${fullPath}.${selectedValue}.${childName}`,
+            statePath: `${statePath}.${selectedValue}.${childName}`,
           });
         })}
     </>

@@ -13,9 +13,9 @@ interface HhdContainerType extends SettingsType {
   childName?: string;
   parentType?: SettingType;
   state: any;
-  // e.g. path in settings file to set/get value,
-  // such as lodash.get(settings, 'children.gyro')
-  fullPath?: string;
+  // e.g. path in state to set/get the currently set value,
+  // such as lodash.get(state, 'xinput.ds5e.led_support')
+  statePath?: string;
 }
 
 const HhdContainer: VFC<HhdContainerType> = ({
@@ -24,7 +24,7 @@ const HhdContainer: VFC<HhdContainerType> = ({
   childName,
   hint,
   parentType,
-  fullPath,
+  statePath,
   children,
   options,
   renderChild,
@@ -43,7 +43,7 @@ const HhdContainer: VFC<HhdContainerType> = ({
           depth: depth + 1,
           parentType: type,
           state,
-          fullPath: fullPath ? `${fullPath}.${childName}` : `${childName}`,
+          statePath: statePath ? `${statePath}.${childName}` : `${childName}`,
         });
       });
     return;
@@ -57,9 +57,9 @@ const HhdContainer: VFC<HhdContainerType> = ({
       </PanelSection>
     );
   }
-  if (type === "mode" && childName === "xinput" && modes && fullPath) {
+  if (type === "mode" && childName === "xinput" && modes && statePath) {
     // specially handle xinput child
-    const value = get(state, `${fullPath}.mode`, defaultValue);
+    const value = get(state, `${statePath}.mode`, defaultValue);
 
     return (
       <HhdModesDropdown
@@ -69,7 +69,7 @@ const HhdContainer: VFC<HhdContainerType> = ({
         title={title}
         depth={depth}
         state={state}
-        fullPath={fullPath}
+        statePath={statePath}
         hint={hint}
         renderChild={renderChild}
       />
@@ -78,7 +78,7 @@ const HhdContainer: VFC<HhdContainerType> = ({
 
   if (type === "bool") {
     // toggle component
-    const checked = get(state, `${fullPath}`, defaultValue);
+    const checked = get(state, `${statePath}`, defaultValue);
     return (
       <ToggleField
         label={title}
@@ -91,7 +91,7 @@ const HhdContainer: VFC<HhdContainerType> = ({
 
   if (type === "discrete" && options) {
     // slider component
-    const value = get(state, `${fullPath}`, defaultValue);
+    const value = get(state, `${statePath}`, defaultValue);
 
     return <HhdSlider defaultValue={value} options={options} title={title} />;
   }
@@ -104,7 +104,7 @@ const HhdContainer: VFC<HhdContainerType> = ({
         options={options}
         defaultValue={defaultValue}
         hint={hint}
-        selectedValue={get(state, `${fullPath}`, defaultValue)}
+        selectedValue={get(state, `${statePath}`, defaultValue)}
       />
     );
   }
@@ -122,7 +122,7 @@ export const renderChild = ({
   child,
   childOrder,
   parentType,
-  fullPath,
+  statePath,
   state,
   depth,
 }: HhdChildContainerType) => {
@@ -133,7 +133,7 @@ export const renderChild = ({
       renderChild={renderChild}
       depth={depth}
       parentType={parentType}
-      fullPath={fullPath}
+      statePath={statePath}
       state={state}
       {...child}
     />
