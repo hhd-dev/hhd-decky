@@ -1,15 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { uiSlice } from "./uiSlice";
-import { hhdApi } from "./hhdApi";
 import { setupListeners } from "@reduxjs/toolkit/query/react";
+import hhdSlice from "./hhdSlice";
 
 export const store = configureStore({
   reducer: {
     ui: uiSlice.reducer,
-    [hhdApi.reducerPath]: hhdApi.reducer,
+    hhd: hhdSlice.reducer,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat([hhdApi.middleware]),
+  //   middleware: (getDefaultMiddleware) =>
+  //     getDefaultMiddleware().concat(),
 });
 
 setupListeners(store.dispatch);

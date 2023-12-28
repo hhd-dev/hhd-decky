@@ -1,6 +1,20 @@
-import { getLogInfo, getServerApi } from "../backend/utils";
+import {
+  // getLogInfo,
+  getServerApi,
+} from "../backend/utils";
 import { ServerAPI } from "decky-frontend-lib";
-import { cloneDeep } from "lodash";
+
+/*
+serverApi.callServerMethod(
+  "http_request",
+  {
+    method: "POST",
+    headers: { Content-Type: 'application/json' },
+    url,
+    data: JSON.stringify(data)
+  }
+)
+*/
 
 //https://microsoft.github.io/PowerBI-JavaScript/interfaces/_node_modules_typedoc_node_modules_typescript_lib_lib_dom_d_.request.html
 const getAuthHeaders = async () => {
@@ -15,44 +29,29 @@ const getAuthHeaders = async () => {
   return headers;
 };
 
-export const fetchFn = async (requestInfo: RequestInfo) => {
+type ResponseOptions = {
+  method: "GET" | "POST";
+  headers?: { [key: string]: string };
+  body?: { [key: string]: string };
+};
+
+export const fetchFn = async (url: string, options?: ResponseOptions) => {
   const headers = await getAuthHeaders();
   const serverApi = getServerApi() as ServerAPI;
 
-  const logInfo = getLogInfo();
-  logInfo(
-    `requestInfo ${requestInfo?.method} ${requestInfo?.url} ${requestInfo?.headers}`
+  if (!options) {
+    options = {
+      method: "GET",
+    };
+  }
+
+  options.headers = headers;
+
+  const response = await serverApi.fetchNoCors(
+    `http://127.0.0.1:5335/api/v1/${url}`,
+    //@ts-ignore
+    options
   );
-  // @ts-ignore
-  const url = requestInfo.url as string;
-  const method = requestInfo.method as string;
-  const body = requestInfo.body;
 
-  const response = await serverApi.fetchNoCors(url, {
-    method,
-    headers,
-    body,
-  });
-
-  //   logInfo(response);
-
-  const { result } = response;
-
-  //   'Content-Type: application/json'
-  result.headers["Content-Type"] = "application/json";
-
-  result.text = () => {
-    const p = new Promise((resolve) => {
-      resolve(JSON.stringify(result.body));
-    });
-    return p;
-  };
-  result.json = () => {
-    return result.body;
-  };
-  result.ok = response.success;
-
-  result.clone = () => cloneDeep(result);
-
-  return result;
+  return response;
 };
