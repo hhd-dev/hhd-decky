@@ -29,12 +29,14 @@ const renderChild = ({
   child,
   childOrder,
   parentType,
+  fullPath,
   depth,
 }: {
   childName: string;
   child: SettingsType;
   parentType: SettingType;
   childOrder: number;
+  fullPath: string;
   depth: number;
 }) => {
   return (
@@ -44,6 +46,7 @@ const renderChild = ({
       renderChild={renderChild}
       depth={depth}
       parentType={parentType}
+      fullPath={fullPath}
       {...child}
     />
   );

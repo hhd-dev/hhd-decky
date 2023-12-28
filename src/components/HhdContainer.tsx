@@ -7,6 +7,9 @@ interface HhdContainer extends SettingsType {
   depth?: number;
   childName?: string;
   parentType?: SettingType;
+  // e.g. path in settings file to set/get value,
+  // such as lodash.get(settings, 'children.gyro')
+  fullPath?: string;
 }
 
 const HhdContainer: VFC<HhdContainer> = ({
@@ -15,6 +18,7 @@ const HhdContainer: VFC<HhdContainer> = ({
   childName,
   hint,
   parentType,
+  fullPath,
   children,
   renderChild,
   depth = 0,
@@ -28,6 +32,9 @@ const HhdContainer: VFC<HhdContainer> = ({
           childOrder: idx,
           depth: depth + 1,
           parentType: type,
+          fullPath: fullPath
+            ? `${fullPath}.children.${childName}`
+            : `children.${childName}`,
         });
       });
     return;
@@ -40,6 +47,11 @@ const HhdContainer: VFC<HhdContainer> = ({
         {renderChild && typeof renderChild === "function" && renderChildren()}
       </PanelSection>
     );
+  }
+  if (type === "mode" && childName === "xinput") {
+    // specially handle xinput child
+
+    return null;
   }
 
   return null;
