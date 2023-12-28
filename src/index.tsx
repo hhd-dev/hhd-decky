@@ -30,7 +30,7 @@ const Content: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
 
   const loading = useSelector(selectAllHhdSettingsLoading);
 
-  const { settings, advanced } = useSelector(selectAllHhdSettings);
+  const settings = useSelector(selectAllHhdSettings);
 
   if (loading) {
     return <SteamSpinner />;
@@ -39,9 +39,9 @@ const Content: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
   return (
     <>
       <HhdContainer
-        {...settings.settings}
+        {...settings.user.settings}
         renderChild={renderChild}
-        state={settings.state}
+        state={settings.user.state}
       />
       <ButtonItem
         layout={"below"}
@@ -50,13 +50,15 @@ const Content: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
       >
         Advanced Options
       </ButtonItem>
-      {showAdvancedOptions && advanced.settings && advanced.state && (
-        <HhdContainer
-          {...advanced.settings}
-          renderChild={renderChild}
-          state={advanced.state}
-        />
-      )}
+      {showAdvancedOptions &&
+        settings.advanced.settings &&
+        settings.advanced.state && (
+          <HhdContainer
+            {...settings.advanced.settings}
+            renderChild={renderChild}
+            state={settings.advanced.state}
+          />
+        )}
     </>
   );
 };

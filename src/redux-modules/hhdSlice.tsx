@@ -43,7 +43,6 @@ interface HhdState {
   settings?: SettingsType;
   advancedSettings?: SettingsType;
   settingsState?: any;
-  advancedSettingsState?: any;
   loading: { [loadState: string]: "idle" | "pending" | "succeeded" | "failed" };
 }
 
@@ -51,7 +50,6 @@ const initialState = {
   settings: undefined,
   advancedSettings: undefined,
   settingsState: undefined,
-  advancedSettingsState: undefined,
   loading: { settings: "idle", settingsState: "idle" },
 } as HhdState;
 
@@ -87,8 +85,9 @@ const hhdSlice = createSlice({
       const body = action.payload.body;
       if (typeof body === "string") {
         const parsedBody = JSON.parse(body);
-        state.settingsState = get(parsedBody, "controllers.legion_go");
-        state.advancedSettingsState = get(parsedBody, "hhd.http");
+        // state.settingsState = get(parsedBody, "controllers.legion_go");
+        // state.advancedSettingsState = get(parsedBody, "hhd.http");
+        state.settingsState = parsedBody;
         state.loading.settingsState = "succeeded";
       }
     });
@@ -105,24 +104,22 @@ export const selectAdvancedHhdSettings = (state: RootState) => {
   return state.hhd.advancedSettings;
 };
 
-export const selectHhdSettingsState = (state: RootState) => {
+const selectHhdSettingsState = (state: RootState) => {
   return state.hhd.settingsState;
-};
-
-export const selectAdvancedHhdSettingsState = (state: RootState) => {
-  return state.hhd.advancedSettingsState;
 };
 
 export const selectAllHhdSettings = (state: RootState) => {
   const settings = selectHhdSettings(state) as SettingsType;
   const settingsState = selectHhdSettingsState(state);
   const advancedSettings = selectAdvancedHhdSettings(state);
-  const advancedSettingsState = selectAdvancedHhdSettingsState(state);
+
+  const userState = get(settingsState, "controllers.legion_go");
+  const advancedSettingsState = get(settingsState, "hhd.http");
 
   return {
-    settings: {
+    user: {
       settings: settings,
-      state: settingsState,
+      state: userState,
     },
     advanced: {
       settings: advancedSettings,
@@ -139,8 +136,8 @@ export const selectHhdSettingsStateLoading = (state: RootState) =>
 
 export const selectAllHhdSettingsLoading = (state: RootState) => {
   return (
-    selectHhdSettingsLoading(state) === "succeeded" &&
-    selectHhdSettingsStateLoading(state) === "succeeded"
+    selectHhdSettingsLoading(state) === "pending" ||
+    selectHhdSettingsStateLoading(state) === "pending"
   );
 };
 
