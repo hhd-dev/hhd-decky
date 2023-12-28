@@ -1,6 +1,7 @@
 import { VFC } from "react";
 import { SettingType, SettingsType } from "../redux-modules/hhdSlice";
 import { PanelSection, ToggleField } from "decky-frontend-lib";
+import HhdSlider from "./HhdSlider";
 
 interface HhdContainer extends SettingsType {
   renderChild?: any;
@@ -20,6 +21,7 @@ const HhdContainer: VFC<HhdContainer> = ({
   parentType,
   fullPath,
   children,
+  options,
   renderChild,
   depth = 0,
   default: defaultValue,
@@ -64,6 +66,13 @@ const HhdContainer: VFC<HhdContainer> = ({
         // noop for now
         onChange={() => {}}
       />
+    );
+  }
+
+  if (type === "discrete" && options) {
+    // slider component
+    return (
+      <HhdSlider defaultValue={defaultValue} options={options} title={title} />
     );
   }
 
