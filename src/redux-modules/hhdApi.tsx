@@ -1,11 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { getServerApi } from "../backend/utils";
+import { fetchFn } from "./fetchFn";
 
 // Define a service using a base URL and expected endpoints
 export const hhdApi = createApi({
   reducerPath: "hhdApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "localhost:5335/api/v1/",
+    baseUrl: "http://127.0.0.1:5335/api/v1/",
     prepareHeaders: async (headers, query) => {
       const serverApi = getServerApi();
       if (serverApi) {
@@ -14,11 +15,13 @@ export const hhdApi = createApi({
           {}
         );
         if (authResult.success) {
-          headers.set("authorization", "Bearer" + `${authResult.result}`);
+          const token = `Bearer ${authResult.result}`;
+          headers.set("Authorization", token);
         }
       }
       return headers;
     },
+    fetchFn,
   }),
   endpoints: (builder) => ({
     getSettings: builder.query<any, void>({

@@ -23,6 +23,9 @@ class Plugin:
         decky_plugin.logger.info("Goodbye World!")
         pass
 
+    async def log_to_backend(self, info):
+        decky_plugin.logger.info(info)
+
     async def retrieve_hhd_token(self):
         try:
             decky_plugin.logger.info(f"retrieving token from {HHD_TOKEN_PATH}")
