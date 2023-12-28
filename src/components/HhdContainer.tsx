@@ -4,7 +4,7 @@ import { PanelSection, ToggleField } from "decky-frontend-lib";
 import HhdSlider from "./HhdSlider";
 import { get } from "lodash";
 
-interface HhdContainer extends SettingsType {
+interface HhdContainerType extends SettingsType {
   renderChild?: any;
   depth?: number;
   childName?: string;
@@ -15,7 +15,7 @@ interface HhdContainer extends SettingsType {
   fullPath?: string;
 }
 
-const HhdContainer: VFC<HhdContainer> = ({
+const HhdContainer: VFC<HhdContainerType> = ({
   type,
   title,
   childName,
@@ -86,6 +86,11 @@ const HhdContainer: VFC<HhdContainer> = ({
   return null;
 };
 
+interface HhdChildContainerType extends HhdContainerType {
+  child: SettingsType;
+  childOrder: number;
+}
+
 export const renderChild = ({
   childName,
   child,
@@ -94,15 +99,7 @@ export const renderChild = ({
   fullPath,
   state,
   depth,
-}: {
-  childName: string;
-  child: SettingsType;
-  parentType: SettingType;
-  childOrder: number;
-  fullPath: string;
-  state: any;
-  depth: number;
-}) => {
+}: HhdChildContainerType) => {
   return (
     <HhdContainer
       key={childOrder}
