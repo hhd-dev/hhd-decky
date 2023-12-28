@@ -1,77 +1,63 @@
 import {
   definePlugin,
-  PanelSection,
   ServerAPI,
   staticClasses,
   SteamSpinner,
+  ButtonItem,
 } from "decky-frontend-lib";
-import { VFC } from "react";
+import { VFC, useState } from "react";
 import { FaShip } from "react-icons/fa";
 import {
   registerForAppLifetimeNotifications,
   suspendEventListener,
 } from "./steamListeners";
-import { registerServerApi } from "./backend/utils";
+import { getLogInfo, registerServerApi } from "./backend/utils";
 import { Provider, useSelector } from "react-redux";
 import { store } from "./redux-modules/store";
 import { selectCurrentGameInfo } from "./redux-modules/uiSlice";
 import {
   fetchHhdSettings,
-  selectHhdSettings,
-  selectHhdSettingsLoading,
-  SettingsType,
-  SettingType,
+  fetchHhdSettingsState,
+  selectAllHhdSettings,
+  selectAllHhdSettingsLoading,
 } from "./redux-modules/hhdSlice";
-import HhdContainer from "./components/HhdContainer";
-
-const renderChild = ({
-  childName,
-  child,
-  childOrder,
-  parentType,
-  fullPath,
-  depth,
-}: {
-  childName: string;
-  child: SettingsType;
-  parentType: SettingType;
-  childOrder: number;
-  fullPath: string;
-  depth: number;
-}) => {
-  return (
-    <HhdContainer
-      key={childOrder}
-      childName={childName}
-      renderChild={renderChild}
-      depth={depth}
-      parentType={parentType}
-      fullPath={fullPath}
-      {...child}
-    />
-  );
-};
+import HhdContainer, { renderChild } from "./components/HhdContainer";
 
 const Content: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
   const { displayName } = useSelector(selectCurrentGameInfo);
 
-  const settings = useSelector(selectHhdSettings);
-  const loading = useSelector(selectHhdSettingsLoading);
+  const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
 
-  if (loading === "pending" || !settings) {
+  const loading = useSelector(selectAllHhdSettingsLoading);
+
+  const { settings, advanced } = useSelector(selectAllHhdSettings);
+
+  if (loading) {
     return <SteamSpinner />;
   }
 
-  const { type, title, hint, children } = settings;
-
   return (
-    <HhdContainer
-      type={type}
-      title={title}
-      hint={hint}
-      children={children}
-      renderChild={renderChild}
-    />
+    <>
+      <HhdContainer
+        {...settings.settings}
+        renderChild={renderChild}
+        state={settings.state}
+      />
+      <ButtonItem
+        layout={"below"}
+        bottomSeparator="none"
+        onClick={() => setShowAdvancedOptions(!showAdvancedOptions)}
+      >
+        Advanced Options
+      </ButtonItem>
+      {showAdvancedOptions && advanced.settings && advanced.state && (
+        <HhdContainer
+          {...advanced.settings}
+          renderChild={renderChild}
+          state={advanced.state}
+        />
+      )}
+    </>
   );
 };
 
@@ -87,6 +73,7 @@ export default definePlugin((serverApi: ServerAPI) => {
   registerServerApi(serverApi);
 
   store.dispatch(fetchHhdSettings());
+  store.dispatch(fetchHhdSettingsState());
 
   const unregister = registerForAppLifetimeNotifications();
   const unsubscribeToSuspendEvent = suspendEventListener();

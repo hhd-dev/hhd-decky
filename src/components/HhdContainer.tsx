@@ -2,12 +2,14 @@ import { VFC } from "react";
 import { SettingType, SettingsType } from "../redux-modules/hhdSlice";
 import { PanelSection, ToggleField } from "decky-frontend-lib";
 import HhdSlider from "./HhdSlider";
+import { get } from "lodash";
 
 interface HhdContainer extends SettingsType {
   renderChild?: any;
   depth?: number;
   childName?: string;
   parentType?: SettingType;
+  state: any;
   // e.g. path in settings file to set/get value,
   // such as lodash.get(settings, 'children.gyro')
   fullPath?: string;
@@ -24,6 +26,7 @@ const HhdContainer: VFC<HhdContainer> = ({
   options,
   renderChild,
   depth = 0,
+  state,
   default: defaultValue,
 }) => {
   const renderChildren = () => {
@@ -35,9 +38,8 @@ const HhdContainer: VFC<HhdContainer> = ({
           childOrder: idx,
           depth: depth + 1,
           parentType: type,
-          fullPath: fullPath
-            ? `${fullPath}.children.${childName}`
-            : `children.${childName}`,
+          state,
+          fullPath: fullPath ? `${fullPath}.${childName}` : `${childName}`,
         });
       });
     return;
@@ -59,10 +61,11 @@ const HhdContainer: VFC<HhdContainer> = ({
 
   if (type === "bool") {
     // toggle component
+    const checked = get(state, `${fullPath}`, defaultValue);
     return (
       <ToggleField
         label={title}
-        checked={Boolean(defaultValue)}
+        checked={Boolean(checked)}
         // noop for now
         onChange={() => {}}
       />
@@ -71,12 +74,47 @@ const HhdContainer: VFC<HhdContainer> = ({
 
   if (type === "discrete" && options) {
     // slider component
-    return (
-      <HhdSlider defaultValue={defaultValue} options={options} title={title} />
-    );
+    const value = get(state, `${fullPath}`, defaultValue);
+
+    return <HhdSlider defaultValue={value} options={options} title={title} />;
+  }
+
+  if (type === "multiple" && options) {
+    // dropdown component
   }
 
   return null;
+};
+
+export const renderChild = ({
+  childName,
+  child,
+  childOrder,
+  parentType,
+  fullPath,
+  state,
+  depth,
+}: {
+  childName: string;
+  child: SettingsType;
+  parentType: SettingType;
+  childOrder: number;
+  fullPath: string;
+  state: any;
+  depth: number;
+}) => {
+  return (
+    <HhdContainer
+      key={childOrder}
+      childName={childName}
+      renderChild={renderChild}
+      depth={depth}
+      parentType={parentType}
+      fullPath={fullPath}
+      state={state}
+      {...child}
+    />
+  );
 };
 
 export default HhdContainer;
