@@ -15,12 +15,39 @@ import { registerServerApi } from "./backend/utils";
 import { Provider, useSelector } from "react-redux";
 import { store } from "./redux-modules/store";
 import { selectCurrentGameInfo } from "./redux-modules/uiSlice";
-import { get } from "lodash";
 import {
   fetchHhdSettings,
   selectHhdSettings,
   selectHhdSettingsLoading,
+  SettingsType,
+  SettingType,
 } from "./redux-modules/hhdSlice";
+import HhdContainer from "./components/HhdContainer";
+
+const renderChild = ({
+  childName,
+  child,
+  childOrder,
+  parentType,
+  depth,
+}: {
+  childName: string;
+  child: SettingsType;
+  parentType: SettingType;
+  childOrder: number;
+  depth: number;
+}) => {
+  return (
+    <HhdContainer
+      key={childOrder}
+      childName={childName}
+      renderChild={renderChild}
+      depth={depth}
+      parentType={parentType}
+      {...child}
+    />
+  );
+};
 
 const Content: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
   const { displayName } = useSelector(selectCurrentGameInfo);
@@ -28,20 +55,20 @@ const Content: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
   const settings = useSelector(selectHhdSettings);
   const loading = useSelector(selectHhdSettingsLoading);
 
-  if (loading === "pending") {
+  if (loading === "pending" || !settings) {
     return <SteamSpinner />;
   }
 
+  const { type, title, hint, children } = settings;
+
   return (
-    <PanelSection
-      title={`Decky HHD - ${displayName} ${get(
-        settings,
-        "controllers.legion_go.title",
-        "None"
-      )}`}
-    >
-      <></>
-    </PanelSection>
+    <HhdContainer
+      type={type}
+      title={title}
+      hint={hint}
+      children={children}
+      renderChild={renderChild}
+    />
   );
 };
 

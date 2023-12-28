@@ -1,10 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fetchFn } from "./fetchFn";
 import { RootState } from "./store";
+import { get } from "lodash";
 
-type SettingType = "bool" | "container" | "mode" | "discrete" | "multiple";
+export type SettingType =
+  | "bool"
+  | "container"
+  | "mode"
+  | "discrete"
+  | "multiple";
 
-type SettingsType = {
+export type SettingsType = {
   type: SettingType;
   title: string;
   default?: any;
@@ -47,7 +53,10 @@ const hhdSlice = createSlice({
       //@ts-ignore
       const body = action.payload.body;
       if (typeof body === "string") {
-        state.settings = JSON.parse(body) as SettingsType;
+        state.settings = get(
+          JSON.parse(body),
+          "controllers.legion_go"
+        ) as SettingsType;
         state.loading = "succeeded";
       }
     });
@@ -56,7 +65,9 @@ const hhdSlice = createSlice({
 
 // selectors
 
-export const selectHhdSettings = (state: RootState) => state.hhd.settings;
+export const selectHhdSettings = (state: RootState) => {
+  return state.hhd.settings;
+};
 export const selectHhdSettingsLoading = (state: RootState) => state.hhd.loading;
 
 export default hhdSlice;
