@@ -40,8 +40,7 @@ export const fetchHhdSettingsState = createAsyncThunk(
 );
 
 interface HhdState {
-  settings?: SettingsType;
-  advancedSettings?: SettingsType;
+  settings?: any;
   settingsState?: any;
   loading: { [loadState: string]: "idle" | "pending" | "succeeded" | "failed" };
 }
@@ -57,9 +56,7 @@ const initialState = {
 const hhdSlice = createSlice({
   name: "hhd",
   initialState,
-  reducers: {
-    // standard reducer logic, with auto-generated action types per reducer
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchHhdSettings.pending, (state, action) => {
       state.loading.settings = "pending";
@@ -69,11 +66,7 @@ const hhdSlice = createSlice({
       const body = action.payload.body;
       if (typeof body === "string") {
         const parsedBody = JSON.parse(body);
-        state.settings = get(
-          parsedBody,
-          "controllers.legion_go"
-        ) as SettingsType;
-        state.advancedSettings = get(parsedBody, "hhd.http");
+        state.settings = parsedBody;
         state.loading.settings = "succeeded";
       }
     });
@@ -100,25 +93,23 @@ export const selectHhdSettings = (state: RootState) => {
   return state.hhd.settings;
 };
 
-export const selectAdvancedHhdSettings = (state: RootState) => {
-  return state.hhd.advancedSettings;
-};
-
 const selectHhdSettingsState = (state: RootState) => {
   return state.hhd.settingsState;
 };
 
 export const selectAllHhdSettings = (state: RootState) => {
-  const settings = selectHhdSettings(state) as SettingsType;
+  const settings = selectHhdSettings(state);
   const settingsState = selectHhdSettingsState(state);
-  const advancedSettings = selectAdvancedHhdSettings(state);
+
+  const userSettings = get(settings, "controllers.legion_go") as SettingsType;
+  const advancedSettings = get(settings, "hhd.http") as SettingsType;
 
   const userState = get(settingsState, "controllers.legion_go");
   const advancedSettingsState = get(settingsState, "hhd.http");
 
   return {
     user: {
-      settings: settings,
+      settings: userSettings,
       state: userState,
     },
     advanced: {
@@ -128,10 +119,10 @@ export const selectAllHhdSettings = (state: RootState) => {
   };
 };
 
-export const selectHhdSettingsLoading = (state: RootState) =>
+const selectHhdSettingsLoading = (state: RootState) =>
   state.hhd.loading.settings;
 
-export const selectHhdSettingsStateLoading = (state: RootState) =>
+const selectHhdSettingsStateLoading = (state: RootState) =>
   state.hhd.loading.settingsState;
 
 export const selectAllHhdSettingsLoading = (state: RootState) => {
