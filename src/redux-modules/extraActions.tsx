@@ -5,7 +5,6 @@ type SetCurrentGameInfoActionType = {
   currentGameId: string;
 };
 
-export const setInitialState = createAction<any>("setInitialState");
 export const setCurrentGameInfo =
   createAction<SetCurrentGameInfoActionType>("setCurrentGameInfo");
 export const resumeAction = createAction("resumeAction");

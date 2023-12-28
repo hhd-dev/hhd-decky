@@ -1,7 +1,8 @@
 import { extractCurrentGameInfo } from "./backend/utils";
 import { LifetimeNotification } from "decky-frontend-lib";
 import { store } from "./redux-modules/store";
-import { setCurrentGameInfo, resumeAction } from "./redux-modules/extraActions";
+import { resumeAction } from "./redux-modules/extraActions";
+import { uiSlice } from "./redux-modules/uiSlice";
 
 export const registerForAppLifetimeNotifications = () => {
   const { unregister } =
@@ -11,10 +12,10 @@ export const registerForAppLifetimeNotifications = () => {
         const results = extractCurrentGameInfo();
 
         if (running) {
-          store.dispatch(setCurrentGameInfo(results));
+          store.dispatch(uiSlice.actions.setCurrentGameInfo(results));
         } else {
           store.dispatch(
-            setCurrentGameInfo({
+            uiSlice.actions.setCurrentGameInfo({
               currentGameId: "default",
               displayName: "default",
             })

@@ -14,26 +14,25 @@ import {
 import { registerServerApi } from "./backend/utils";
 import { Provider, useSelector } from "react-redux";
 import { store } from "./redux-modules/store";
-import {
-  selectAuthToken,
-  selectCurrentGameInfo,
-  selectInitialLoading,
-  uiSlice,
-} from "./redux-modules/uiSlice";
+import { selectCurrentGameInfo } from "./redux-modules/uiSlice";
+import { hhdApi } from "./redux-modules/hhdApi";
 
 const Content: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
-  const { gameId, displayName } = useSelector(selectCurrentGameInfo);
-  const authToken = useSelector(selectAuthToken);
-  const loading = useSelector(selectInitialLoading);
+  const { displayName } = useSelector(selectCurrentGameInfo);
+  const { data, error, isLoading } = hhdApi.useGetSettingsQuery();
 
-  if (loading) {
-    return null;
+  if (isLoading) {
+    return (
+      <PanelSection title={`Loading`}>
+        <></>
+      </PanelSection>
+    );
   }
 
   return (
-    <PanelSection
-      title={`${gameId} ${displayName} ${authToken}`}
-    ></PanelSection>
+    <PanelSection title={`Decky HHD - ${displayName}`}>
+      <></>
+    </PanelSection>
   );
 };
 
@@ -50,14 +49,6 @@ export default definePlugin((serverApi: ServerAPI) => {
 
   const unregister = registerForAppLifetimeNotifications();
   const unsubscribeToSuspendEvent = suspendEventListener();
-
-  serverApi.callPluginMethod("retrieve_hhd_token", {}).then((result) => {
-    if (result.success) {
-      const authToken = JSON.stringify(result.result) || "";
-
-      store.dispatch(uiSlice.actions.setAuthToken(authToken));
-    }
-  });
 
   return {
     title: <div className={staticClasses.Title}>Example Plugin</div>,

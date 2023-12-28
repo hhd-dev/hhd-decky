@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { setCurrentGameInfo, setInitialState } from "./extraActions";
 import { RootState } from "./store";
 
 type UiStateType = {
@@ -21,29 +20,15 @@ export const uiSlice = createSlice({
   name: "ui",
   initialState,
   reducers: {
-    setInitialLoading: (state, action: PayloadAction<boolean>) => {
-      state.initialLoading = action.payload;
+    setCurrentGameInfo: (
+      state,
+      action: PayloadAction<{ currentGameId: string; displayName: string }>
+    ) => {
+      state.currentGameId = action.payload.currentGameId;
+      state.currentDisplayName = action.payload.displayName;
     },
-    setAuthToken: (state, action: PayloadAction<string>) => {
-      state.authToken = action.payload;
-      state.initialLoading = false;
-    },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(setInitialState, (state, action) => {
-      if (action) state.initialLoading = false;
-    });
-    builder.addCase(setCurrentGameInfo, (state, action) => {
-      if (action?.payload) {
-        state.currentGameId = action.payload.currentGameId;
-        state.currentDisplayName = action.payload.displayName;
-      }
-    });
   },
 });
-
-export const selectInitialLoading = (state: RootState) =>
-  state.ui?.initialLoading;
 
 const selectCurrentGameId = (state: RootState) =>
   state.ui?.currentGameId || "default";
