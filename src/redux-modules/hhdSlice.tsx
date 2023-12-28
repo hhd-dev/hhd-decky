@@ -17,7 +17,7 @@ export type SettingsType = {
   title: string;
   default?: any;
   hint?: string;
-  options?: any[];
+  options?: any;
   children?: { [childName: string]: SettingsType };
 };
 

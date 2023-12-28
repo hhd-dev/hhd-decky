@@ -3,6 +3,7 @@ import { SettingType, SettingsType } from "../redux-modules/hhdSlice";
 import { PanelSection, ToggleField } from "decky-frontend-lib";
 import HhdSlider from "./HhdSlider";
 import { get } from "lodash";
+import HhdDropdown from "./HhdDropdown";
 
 interface HhdContainerType extends SettingsType {
   renderChild?: any;
@@ -81,6 +82,15 @@ const HhdContainer: VFC<HhdContainerType> = ({
 
   if (type === "multiple" && options) {
     // dropdown component
+    return (
+      <HhdDropdown
+        title={title}
+        options={options}
+        defaultValue={defaultValue}
+        hint={hint}
+        selectedValue={get(state, `${fullPath}`, defaultValue)}
+      />
+    );
   }
 
   return null;
