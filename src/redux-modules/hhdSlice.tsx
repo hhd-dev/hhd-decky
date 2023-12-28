@@ -24,7 +24,7 @@ export type SettingsType = {
 
 export const fetchHhdSettings = createAsyncThunk(
   "hhd/fetchHhdSettings",
-  async (thunkAPI) => {
+  async () => {
     const response = await fetchFn("settings");
     return response.result;
   }
@@ -32,7 +32,7 @@ export const fetchHhdSettings = createAsyncThunk(
 
 export const fetchHhdSettingsState = createAsyncThunk(
   "hhd/fetchHhdSettingsState",
-  async (thunkAPI) => {
+  async () => {
     const response = await fetchFn("state");
     // const logInfo = getLogInfo();
     // logInfo(response.result);
@@ -59,7 +59,7 @@ const hhdSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchHhdSettings.pending, (state, action) => {
+    builder.addCase(fetchHhdSettings.pending, (state) => {
       state.loading.settings = "pending";
     });
     builder.addCase(fetchHhdSettings.fulfilled, (state, action) => {
@@ -71,7 +71,7 @@ const hhdSlice = createSlice({
         state.loading.settings = "succeeded";
       }
     });
-    builder.addCase(fetchHhdSettingsState.pending, (state, action) => {
+    builder.addCase(fetchHhdSettingsState.pending, (state) => {
       state.loading.settingsState = "pending";
     });
     builder.addCase(fetchHhdSettingsState.fulfilled, (state, action) => {
@@ -79,8 +79,6 @@ const hhdSlice = createSlice({
       const body = action.payload.body;
       if (typeof body === "string") {
         const parsedBody = JSON.parse(body);
-        // state.settingsState = get(parsedBody, "controllers.legion_go");
-        // state.advancedSettingsState = get(parsedBody, "hhd.http");
         state.settingsState = parsedBody;
         state.loading.settingsState = "succeeded";
       }

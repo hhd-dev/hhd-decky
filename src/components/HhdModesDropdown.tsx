@@ -32,10 +32,10 @@ const HhdModesDropdown: FC<DropdownProps> = ({
     };
   });
 
-  //   const currentMode = modes[selectedValue];
-  //   const { type } = currentMode;
+  const currentMode = modes[selectedValue];
+  const { type } = currentMode;
 
-  //   const children = Object.entries(modes[selectedValue].children);
+  const children = Object.entries(currentMode.children);
 
   return (
     <>
@@ -61,9 +61,9 @@ const HhdModesDropdown: FC<DropdownProps> = ({
           //   }
         }
       />
-      {/* {children &&
+      {children &&
         children.length > 0 &&
-        Object.entries(children).map(([childName, child], idx) => {
+        children.map(([childName, child], idx) => {
           return renderChild({
             childName,
             child,
@@ -71,9 +71,9 @@ const HhdModesDropdown: FC<DropdownProps> = ({
             depth: depth + 1,
             parentType: type,
             state,
-            fullPath: fullPath ? `${fullPath}.${childName}` : `${childName}`,
+            fullPath: `${fullPath}.${selectedValue}.${childName}`,
           });
-        })} */}
+        })}
     </>
   );
 };

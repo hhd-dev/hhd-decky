@@ -5,6 +5,7 @@ import HhdSlider from "./HhdSlider";
 import { get } from "lodash";
 import HhdDropdown from "./HhdDropdown";
 import HhdModesDropdown from "./HhdModesDropdown";
+import { getLogInfo } from "../backend/utils";
 
 interface HhdContainerType extends SettingsType {
   renderChild?: any;
@@ -58,7 +59,7 @@ const HhdContainer: VFC<HhdContainerType> = ({
   }
   if (type === "mode" && childName === "xinput" && modes && fullPath) {
     // specially handle xinput child
-    const value = get(state, `${fullPath}`, defaultValue);
+    const value = get(state, `${fullPath}.mode`, defaultValue);
 
     return (
       <HhdModesDropdown
