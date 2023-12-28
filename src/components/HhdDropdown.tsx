@@ -40,9 +40,12 @@ const HhdDropdown: FC<DropdownProps> = ({
           return o.data === selectedValue;
         })?.data || defaultValue
       }
-      onChange={({ data: seconds }) => {
-        setPollRate(seconds * 1000);
-      }}
+      onChange={
+        () => {}
+        //     ({ data: seconds }) => {
+        //     setPollRate(seconds * 1000);
+        //   }
+      }
     />
   );
 };

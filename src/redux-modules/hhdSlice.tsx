@@ -18,6 +18,7 @@ export type SettingsType = {
   default?: any;
   hint?: string;
   options?: any;
+  modes?: any;
   children?: { [childName: string]: SettingsType };
 };
 
