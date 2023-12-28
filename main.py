@@ -5,7 +5,7 @@ import os
 # or add the `decky-loader/plugin` path to `python.analysis.extraPaths` in `.vscode/settings.json`
 import decky_plugin
 
-HHD_TOKEN_PATH = "~/.config/hhd/token"
+HHD_TOKEN_PATH = "/home/deck/.config/hhd/token"
 
 class Plugin:
     # A normal method. It can be called from JavaScript using call_plugin_function("method_1", argument1, argument2)

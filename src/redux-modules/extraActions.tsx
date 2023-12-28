@@ -1,10 +1,11 @@
-import { createAction } from '@reduxjs/toolkit';
+import { createAction } from "@reduxjs/toolkit";
 
 type SetCurrentGameInfoActionType = {
-    displayName: string;
-    currentGameId: string;
-}
+  displayName: string;
+  currentGameId: string;
+};
 
-export const setInitialState = createAction<any>('setInitialState');
-export const setCurrentGameInfo = createAction<SetCurrentGameInfoActionType>('setCurrentGameInfo');
-export const resumeAction = createAction('resumeAction');
+export const setInitialState = createAction<any>("setInitialState");
+export const setCurrentGameInfo =
+  createAction<SetCurrentGameInfoActionType>("setCurrentGameInfo");
+export const resumeAction = createAction("resumeAction");
