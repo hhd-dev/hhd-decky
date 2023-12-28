@@ -3,9 +3,11 @@ import os
 # The decky plugin module is located at decky-loader/plugin
 # For easy intellisense checkout the decky-loader code one directory up
 # or add the `decky-loader/plugin` path to `python.analysis.extraPaths` in `.vscode/settings.json`
+import plugin_settings
 import decky_plugin
 
-HHD_TOKEN_PATH = "/home/deck/.config/hhd/token"
+PLUGIN_USER = os.environ["DECKY_USER"]
+HHD_TOKEN_PATH = f"/home/{PLUGIN_USER}/.config/hhd/token"
 
 class Plugin:
     # A normal method. It can be called from JavaScript using call_plugin_function("method_1", argument1, argument2)
@@ -23,10 +25,12 @@ class Plugin:
 
     async def retrieve_hhd_token(self):
         try:
-            decky_plugin.logger.info(f"retrieving token")
+            decky_plugin.logger.info(f"retrieving token from {HHD_TOKEN_PATH}")
 
             if os.path.exists(HHD_TOKEN_PATH):
-                return open(HHD_TOKEN_PATH, 'r').read()
+                token = open(HHD_TOKEN_PATH, 'r').read()
+                decky_plugin.logger.info(f"token {token}")
+                return token
         except Exception as e:
             decky_plugin.logger.error(f"failure retrieving token {e}")
             return False
