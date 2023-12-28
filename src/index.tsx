@@ -5,7 +5,7 @@ import {
   SteamSpinner,
   ButtonItem,
 } from "decky-frontend-lib";
-import { VFC, useState } from "react";
+import { VFC } from "react";
 import { FaShip } from "react-icons/fa";
 import {
   registerForAppLifetimeNotifications,
@@ -22,14 +22,11 @@ import {
   selectAllHhdSettingsLoading,
 } from "./redux-modules/hhdSlice";
 import HhdContainer, { renderChild } from "./components/HhdContainer";
+// import AdvancedOptions from "./components/AdvancedOptions";
 
 const Content: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
   const { displayName } = useSelector(selectCurrentGameInfo);
-
-  const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
-
   const loading = useSelector(selectAllHhdSettingsLoading);
-
   const settings = useSelector(selectAllHhdSettings);
 
   if (loading) {
@@ -43,22 +40,7 @@ const Content: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
         renderChild={renderChild}
         state={settings.user.state}
       />
-      <ButtonItem
-        layout={"below"}
-        bottomSeparator="none"
-        onClick={() => setShowAdvancedOptions(!showAdvancedOptions)}
-      >
-        Advanced Options
-      </ButtonItem>
-      {showAdvancedOptions &&
-        settings.advanced.settings &&
-        settings.advanced.state && (
-          <HhdContainer
-            {...settings.advanced.settings}
-            renderChild={renderChild}
-            state={settings.advanced.state}
-          />
-        )}
+      {/* <AdvancedOptions /> */}
     </>
   );
 };
