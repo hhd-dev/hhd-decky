@@ -1,6 +1,6 @@
 import { VFC } from "react";
 import { SettingType, SettingsType } from "../redux-modules/hhdSlice";
-import { PanelSection } from "decky-frontend-lib";
+import { PanelSection, ToggleField } from "decky-frontend-lib";
 
 interface HhdContainer extends SettingsType {
   renderChild?: any;
@@ -22,6 +22,7 @@ const HhdContainer: VFC<HhdContainer> = ({
   children,
   renderChild,
   depth = 0,
+  default: defaultValue,
 }) => {
   const renderChildren = () => {
     if (children)
@@ -52,6 +53,18 @@ const HhdContainer: VFC<HhdContainer> = ({
     // specially handle xinput child
 
     return null;
+  }
+
+  if (type === "bool") {
+    // toggle component
+    return (
+      <ToggleField
+        label={title}
+        checked={Boolean(defaultValue)}
+        // noop for now
+        onChange={() => {}}
+      />
+    );
   }
 
   return null;
