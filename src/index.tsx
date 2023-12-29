@@ -3,7 +3,6 @@ import {
   ServerAPI,
   staticClasses,
   SteamSpinner,
-  ButtonItem,
 } from "decky-frontend-lib";
 import { VFC } from "react";
 import { FaShip } from "react-icons/fa";
@@ -16,12 +15,14 @@ import { Provider, useSelector } from "react-redux";
 import { store } from "./redux-modules/store";
 import { selectCurrentGameInfo } from "./redux-modules/uiSlice";
 import {
-  fetchHhdSettings,
-  fetchHhdSettingsState,
   selectAllHhdSettings,
   selectAllHhdSettingsLoading,
 } from "./redux-modules/hhdSlice";
 import HhdContainer, { renderChild } from "./components/HhdContainer";
+import {
+  fetchHhdSettings,
+  fetchHhdSettingsState,
+} from "./redux-modules/hhdAsyncThunks";
 // import AdvancedOptions from "./components/AdvancedOptions";
 
 const Content: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {

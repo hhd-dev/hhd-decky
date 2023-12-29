@@ -16,7 +16,6 @@ serverApi.callServerMethod(
 )
 */
 
-//https://microsoft.github.io/PowerBI-JavaScript/interfaces/_node_modules_typedoc_node_modules_typescript_lib_lib_dom_d_.request.html
 const getAuthHeaders = async () => {
   const serverApi = getServerApi() as ServerAPI;
 

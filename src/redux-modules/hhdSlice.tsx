@@ -1,8 +1,7 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { fetchFn } from "./fetchFn";
+import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 import { get } from "lodash";
-import { getLogInfo } from "../backend/utils";
+import { fetchHhdSettings, fetchHhdSettingsState } from "./hhdAsyncThunks";
 
 export type SettingType =
   | "bool"
@@ -21,24 +20,6 @@ export type SettingsType = {
   modes?: any;
   children?: { [childName: string]: SettingsType };
 };
-
-export const fetchHhdSettings = createAsyncThunk(
-  "hhd/fetchHhdSettings",
-  async () => {
-    const response = await fetchFn("settings");
-    return response.result;
-  }
-);
-
-export const fetchHhdSettingsState = createAsyncThunk(
-  "hhd/fetchHhdSettingsState",
-  async () => {
-    const response = await fetchFn("state");
-    // const logInfo = getLogInfo();
-    // logInfo(response.result);
-    return response.result;
-  }
-);
 
 interface HhdState {
   settings?: any;
