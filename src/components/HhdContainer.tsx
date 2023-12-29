@@ -93,7 +93,14 @@ const HhdContainer: VFC<HhdContainerType> = ({
     // slider component
     const value = get(state, `${statePath}`, defaultValue);
 
-    return <HhdSlider defaultValue={value} options={options} title={title} />;
+    return (
+      <HhdSlider
+        value={value}
+        defaultValue={defaultValue}
+        options={options}
+        title={title}
+      />
+    );
   }
 
   if (type === "multiple" && options) {
