@@ -136,6 +136,10 @@ const selectHhdSettingsLoading = (state: RootState) =>
 const selectHhdSettingsStateLoading = (state: RootState) =>
   state.hhd.loading.settingsState;
 
+export const selectUpdateControllerSettingsLoading = (state: RootState) => {
+  return state.hhd.loading.updateControllerSettingsState === "pending";
+};
+
 export const selectAllHhdSettingsLoading = (state: RootState) => {
   return (
     selectHhdSettingsLoading(state) === "pending" ||

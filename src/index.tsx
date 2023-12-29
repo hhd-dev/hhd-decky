@@ -5,7 +5,7 @@ import {
   SteamSpinner,
 } from "decky-frontend-lib";
 import { VFC } from "react";
-import { FaShip } from "react-icons/fa";
+import { FaGamepad } from "react-icons/fa";
 import {
   registerForAppLifetimeNotifications,
   suspendEventListener,
@@ -74,7 +74,7 @@ export default definePlugin((serverApi: ServerAPI) => {
   return {
     title: <div className={staticClasses.Title}>HHD</div>,
     content: <AppContainer serverAPI={serverApi} />,
-    icon: <FaShip />,
+    icon: <FaGamepad />,
     onDismount() {
       unregister();
       if (unsubscribeToSuspendEvent) {

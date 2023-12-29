@@ -5,6 +5,7 @@ import HhdSlider from "./HhdSlider";
 import { get } from "lodash";
 import HhdDropdown from "./HhdDropdown";
 import HhdModesDropdown from "./HhdModesDropdown";
+import { useUpdateControllerStateIsLoading } from "../hooks/controller";
 // import { getLogInfo } from "../backend/utils";
 
 interface HhdContainerType extends SettingsType {
@@ -35,6 +36,8 @@ const HhdContainer: VFC<HhdContainerType> = ({
   updateState,
   default: defaultValue,
 }) => {
+  const updating = useUpdateControllerStateIsLoading();
+
   const renderChildren = () => {
     if (children)
       return Object.entries(children).map(([childName, child], idx) => {
@@ -81,6 +84,7 @@ const HhdContainer: VFC<HhdContainerType> = ({
         onChange={onChange}
         hint={hint}
         renderChild={renderChild}
+        disabled={updating}
       />
     );
   }
@@ -95,6 +99,7 @@ const HhdContainer: VFC<HhdContainerType> = ({
         onChange={(enabled) => {
           return updateState(`${statePath}`, enabled);
         }}
+        disabled={updating}
       />
     );
   }
@@ -114,6 +119,7 @@ const HhdContainer: VFC<HhdContainerType> = ({
         options={options}
         title={title}
         handleSliderChange={handleSliderChange}
+        disabled={updating}
       />
     );
   }
@@ -132,6 +138,7 @@ const HhdContainer: VFC<HhdContainerType> = ({
         hint={hint}
         selectedValue={get(state, `${statePath}`, defaultValue)}
         onChange={onChange}
+        disabled={updating}
       />
     );
   }

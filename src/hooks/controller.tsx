@@ -1,6 +1,7 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateControllerSettingsState } from "../redux-modules/hhdAsyncThunks";
 import { AppDispatch } from "../redux-modules/store";
+import { selectUpdateControllerSettingsLoading } from "../redux-modules/hhdSlice";
 
 export const useSetControllerInfo = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -11,4 +12,10 @@ export const useSetControllerInfo = () => {
   };
 
   return setter;
+};
+
+export const useUpdateControllerStateIsLoading = () => {
+  const loading = useSelector(selectUpdateControllerSettingsLoading);
+
+  return loading;
 };
