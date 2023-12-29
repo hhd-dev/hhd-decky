@@ -114,6 +114,10 @@ const HhdContainer: VFC<HhdContainerType> = ({
 
   if (type === "multiple" && options) {
     // dropdown component
+    const onChange = ({ value }: { value: number }) => {
+      return updateState(`${statePath}`, value);
+    };
+
     return (
       <HhdDropdown
         title={title}
@@ -121,6 +125,7 @@ const HhdContainer: VFC<HhdContainerType> = ({
         defaultValue={defaultValue}
         hint={hint}
         selectedValue={get(state, `${statePath}`, defaultValue)}
+        onChange={onChange}
       />
     );
   }

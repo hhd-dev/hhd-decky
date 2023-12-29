@@ -5,6 +5,7 @@ type DropdownProps = {
   options: { [value: string]: string };
   defaultValue: string;
   selectedValue: string;
+  onChange: any;
   title: string;
   hint?: string;
 };
@@ -13,6 +14,7 @@ const HhdDropdown: FC<DropdownProps> = ({
   options,
   defaultValue,
   selectedValue,
+  onChange,
   title,
   hint,
 }) => {
@@ -40,12 +42,7 @@ const HhdDropdown: FC<DropdownProps> = ({
           return o.data === selectedValue;
         })?.data || defaultValue
       }
-      onChange={
-        () => {}
-        //     ({ data: seconds }) => {
-        //     setPollRate(seconds * 1000);
-        //   }
-      }
+      onChange={onChange}
     />
   );
 };
