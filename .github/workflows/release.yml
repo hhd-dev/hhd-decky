@@ -30,18 +30,18 @@ jobs:
           pnpm install --no-frozen-lockfile
           pnpm update decky-frontend-lib --latest
           pnpm run build
-          tar -czvf decky-hhd.tar.gz --transform 's,^,decky-hhd/,' dist backend py_modules bin *.py *.json *.md *.js LICENSE
+          tar -czvf hhd-decky.tar.gz --transform 's,^,hhd-decky/,' dist backend py_modules bin *.py *.json *.md *.js LICENSE
         continue-on-error: true
 
       - name: show files
         run: |
-          tar -tzvf decky-hhd.tar.gz
+          tar -tzvf hhd-decky.tar.gz
 
       - name: Publish Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: decky-hhd
-          path: decky-hhd.tar.gz
+          name: hhd-decky
+          path: hhd-decky.tar.gz
 
   publish:
     if: startsWith(github.ref, 'refs/tags/v')
@@ -60,10 +60,10 @@ jobs:
       - name: publish to github release
         uses: softprops/action-gh-release@v1
         with:
-          files: /tmp/artifacts/decky-hhd/decky-hhd.tar.gz
+          files: /tmp/artifacts/hhd-decky/hhd-decky.tar.gz
           tag_name: ${{ github.ref_name }}
           body: |
-            decky-hhd
+            hhd-decky
           draft: false
           prerelease: contains(github.ref, 'pre')
         env:
