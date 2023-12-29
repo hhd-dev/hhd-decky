@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { get } from "lodash";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { get, set } from "lodash";
 import {
   fetchHhdSettings,
   fetchHhdSettingsState,
@@ -32,8 +32,8 @@ interface HhdState {
 }
 
 const initialState = {
-  settingsState: undefined,
-  settings: undefined,
+  settingsState: {},
+  settings: {},
   loading: {
     settings: "idle",
     settingsState: "idle",
@@ -44,34 +44,28 @@ const initialState = {
 const hhdSlice = createSlice({
   name: "hhd",
   initialState,
-  reducers: {},
+  reducers: {
+    updateHhdState: (
+      store,
+      action: PayloadAction<{ path: string; value: any }>
+    ) => {
+      const { path, value } = action.payload;
+      set(store.settingsState, `controllers.legion_go.${path}`, value);
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchHhdSettings.pending, (state) => {
       state.loading.settings = "pending";
     });
     builder.addCase(fetchHhdSettings.fulfilled, (state, action) => {
-      //@ts-ignore
-      const body = action.payload.body;
-      if (typeof body === "string") {
-        const parsedBody = JSON.parse(body);
-        state.settings = parsedBody;
-      } else {
-        state.settings = body;
-      }
+      state.settings = action.payload;
       state.loading.settings = "succeeded";
     });
     builder.addCase(fetchHhdSettingsState.pending, (state) => {
       state.loading.settingsState = "pending";
     });
     builder.addCase(fetchHhdSettingsState.fulfilled, (state, action) => {
-      //@ts-ignore
-      const body = action.payload.body;
-      if (typeof body === "string") {
-        const parsedBody = JSON.parse(body);
-        state.settingsState = parsedBody;
-      } else {
-        state.settingsState = body;
-      }
+      state.settingsState = action.payload;
       state.loading.settingsState = "succeeded";
     });
 
@@ -81,14 +75,7 @@ const hhdSlice = createSlice({
     builder.addCase(
       updateControllerSettingsState.fulfilled,
       (state, action) => {
-        //@ts-ignore
-        const body = action.payload.body;
-        if (typeof body === "string") {
-          const parsedBody = JSON.parse(body);
-          state.settingsState = parsedBody;
-        } else {
-          state.settingsState = body;
-        }
+        state.settingsState = action.payload;
         state.loading.updateControllerSettingsState = "succeeded";
       }
     );

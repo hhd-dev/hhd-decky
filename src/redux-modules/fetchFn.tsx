@@ -28,34 +28,18 @@ const getAuthHeaders = async () => {
   return headers;
 };
 
-export type FetchFnResponseOptions = {
-  method: "GET" | "POST";
-  headers?: { [key: string]: string };
-  body?: any;
-};
-
 export const fetchFn = async (
   url: string,
-  options?: FetchFnResponseOptions
+  options: { [s: string]: any } = { method: "GET" }
 ) => {
   const authHeaders = await getAuthHeaders();
-  const serverApi = getServerApi() as ServerAPI;
+  options.headers = { ...options?.headers, ...authHeaders };
 
-  if (!options) {
-    options = {
-      method: "GET",
-    };
-  }
-
-  options.headers = options?.headers
-    ? { ...options.headers, ...authHeaders }
-    : authHeaders;
-
-  const response = await serverApi.fetchNoCors(
-    `http://127.0.0.1:5335/api/v1/${url}`,
-    //@ts-ignore
-    options
-  );
-
-  return response;
+  return fetch(`localhost:5335/api/v1/${url}`, options)
+    .then((r) => {
+      if (r.ok) {
+        return r.json();
+      }
+    })
+    .catch(console.log);
 };

@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { FetchFnResponseOptions, fetchFn } from "./fetchFn";
+import { fetchFn } from "./fetchFn";
 import { set } from "lodash";
 
 export const fetchHhdSettings = createAsyncThunk(
@@ -24,7 +24,7 @@ export const updateControllerSettingsState = createAsyncThunk(
   async ({ path, value }: { path: string; value: any }, thunkApi) => {
     const body = set({}, `controllers.legion_go.${path}`, value);
 
-    const options: FetchFnResponseOptions = {
+    const options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
