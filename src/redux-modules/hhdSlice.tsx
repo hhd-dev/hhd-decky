@@ -1,7 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { RootState } from "./store";
-import { get } from "lodash";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { get, set } from "lodash";
 import { fetchHhdSettings, fetchHhdSettingsState } from "./hhdAsyncThunks";
+import { RootState } from "./store";
 
 export type SettingType =
   | "bool"
@@ -29,7 +29,6 @@ interface HhdState {
 
 const initialState = {
   settings: undefined,
-  advancedSettings: undefined,
   settingsState: undefined,
   loading: { settings: "idle", settingsState: "idle" },
 } as HhdState;
@@ -38,7 +37,15 @@ const initialState = {
 const hhdSlice = createSlice({
   name: "hhd",
   initialState,
-  reducers: {},
+  reducers: {
+    updateControllerSettingsState: (
+      state,
+      action: PayloadAction<{ path: string; value: any }>
+    ) => {
+      const { path, value } = action.payload;
+      set(state, `controllers.legion_go.${path}`, value);
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchHhdSettings.pending, (state) => {
       state.loading.settings = "pending";
@@ -81,15 +88,18 @@ export const selectAllHhdSettings = (state: RootState) => {
   const settings = selectHhdSettings(state);
   const settingsState = selectHhdSettingsState(state);
 
-  const userSettings = get(settings, "controllers.legion_go") as SettingsType;
+  const controllerSettings = get(
+    settings,
+    "controllers.legion_go"
+  ) as SettingsType;
   const advancedSettings = get(settings, "hhd.http") as SettingsType;
 
   const userState = get(settingsState, "controllers.legion_go");
   const advancedSettingsState = get(settingsState, "hhd.http");
 
   return {
-    user: {
-      settings: userSettings,
+    controller: {
+      settings: controllerSettings,
       state: userState,
     },
     advanced: {

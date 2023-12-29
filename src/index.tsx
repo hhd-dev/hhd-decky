@@ -37,9 +37,9 @@ const Content: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
   return (
     <>
       <HhdContainer
-        {...settings.user.settings}
+        {...settings.controller.settings}
         renderChild={renderChild}
-        state={settings.user.state}
+        state={settings.controller.state}
       />
       {/* <AdvancedOptions /> */}
     </>
