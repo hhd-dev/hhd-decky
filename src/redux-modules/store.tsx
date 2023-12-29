@@ -10,7 +10,8 @@ export const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat([
-      // logger
+      // logger for localdev only
+      logger,
     ]),
 });
 

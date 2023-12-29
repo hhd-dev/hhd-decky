@@ -97,12 +97,17 @@ const HhdContainer: VFC<HhdContainerType> = ({
     // slider component
     const value = get(state, `${statePath}`, defaultValue);
 
+    const handleSliderChange = (value: any) => {
+      return updateState(`${statePath}`, value);
+    };
+
     return (
       <HhdSlider
         value={value}
         defaultValue={defaultValue}
         options={options}
         title={title}
+        handleSliderChange={handleSliderChange}
       />
     );
   }
