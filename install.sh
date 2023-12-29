@@ -11,15 +11,14 @@ echo "removing previous install if it exists"
 
 cd $HOME
 
-sudo rm -rf $HOME/homebrew/plugins/decky-hhd
+sudo rm -rf "$HOME/homebrew/plugins/hhd-decky"
 
-echo "installing SimpleDeckyTDP plugin for TDP control"
-# download + install simple decky tdp
-curl -L $(curl -s https://api.github.com/repos/aarron-lee/decky-hhd/releases/latest | grep "browser_download_url" | cut -d '"' -f 4) -o $HOME/SimpleDeckyTDP.tar.gz
-sudo tar -xzf decky-hhd.tar.gz -C $HOME/homebrew/plugins
+echo "installing hhd plugin"
+curl -L $(curl -s "https://api.github.com/repos/hhd-dev/hhd-decky/releases/latest" | grep "browser_download_url" | cut -d '"' -f 4) -o $HOME/hhd-decky.tar.gz
+sudo tar -xzf hhd-decky.tar.gz -C $HOME/homebrew/plugins
 
 # install complete, remove build dir
-rm  $HOME/decky-hhd.tar.gz
+rm  $HOME/hhd-decky.tar.gz
 sudo systemctl restart plugin_loader.service
 
 echo "Installation complete"

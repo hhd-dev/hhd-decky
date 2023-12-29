@@ -20,14 +20,14 @@ Decky Loader must already be installed.
 run the following in terminal, then reboot:
 
 ```
-curl -L https://github.com/aarron-lee/decky-hhd/raw/main/install.sh | sh
+curl -L https://github.com/hhd-dev/hhd-decky/raw/main/install.sh | sh
 ```
 
 ### Manual Install
 
-Download the latest release from the [releases page](https://github.com/aarron-lee/decky-hhd/releases)
+Download the latest release from the [releases page](https://github.com/hhd-dev/hhd-decky/releases)
 
-Unzip the `tar.gz` file, and move the `decky-hhd` folder to your `$HOME/homebrew/plugins` directory
+Unzip the `tar.gz` file, and move the `hhd-decky` folder to your `$HOME/homebrew/plugins` directory
 
 then run:
 
@@ -44,9 +44,9 @@ Dependencies:
 - Node.js v16.14+ and pnpm installed
 
 ```bash
-git clone https://github.com/aarron-lee/decky-hhd.git
+git clone https://github.com/hhd-dev/hhd-decky.git
 
-cd decky-hhd
+cd hhd-decky
 
 # if pnpm not already installed
 npm install -g pnpm
@@ -56,7 +56,7 @@ pnpm update decky-frontend-lib --latest
 pnpm run build
 ```
 
-Afterwards, you can place the entire `decky-hhd` folder in the `~/homebrew/plugins` directly, then restart your plugin service
+Afterwards, you can place the entire `hhd-decky` folder in the `~/homebrew/plugins` directly, then restart your plugin service
 
 ```bash
 sudo systemctl restart plugin_loader.service
