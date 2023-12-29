@@ -3,13 +3,11 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 
 type UiStateType = {
-  initialLoading: boolean;
   currentGameId: string;
   currentDisplayName: string;
 };
 
 const initialState: UiStateType = {
-  initialLoading: true,
   currentGameId: "default",
   currentDisplayName: "default",
 };
