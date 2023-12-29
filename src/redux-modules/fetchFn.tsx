@@ -28,14 +28,17 @@ const getAuthHeaders = async () => {
   return headers;
 };
 
-type ResponseOptions = {
+export type FetchFnResponseOptions = {
   method: "GET" | "POST";
   headers?: { [key: string]: string };
   body?: { [key: string]: string };
 };
 
-export const fetchFn = async (url: string, options?: ResponseOptions) => {
-  const headers = await getAuthHeaders();
+export const fetchFn = async (
+  url: string,
+  options?: FetchFnResponseOptions
+) => {
+  const authHeaders = await getAuthHeaders();
   const serverApi = getServerApi() as ServerAPI;
 
   if (!options) {
@@ -44,7 +47,9 @@ export const fetchFn = async (url: string, options?: ResponseOptions) => {
     };
   }
 
-  options.headers = headers;
+  options.headers = options?.headers
+    ? { ...options.headers, ...authHeaders }
+    : authHeaders;
 
   const response = await serverApi.fetchNoCors(
     `http://127.0.0.1:5335/api/v1/${url}`,
