@@ -64,6 +64,10 @@ const HhdContainer: VFC<HhdContainerType> = ({
     // specially handle xinput child
     const value = get(state, `${statePath}.mode`, defaultValue);
 
+    const onChange = ({ value }: { value: number }) => {
+      return updateState(`${statePath}.mode`, value);
+    };
+
     return (
       <HhdModesDropdown
         modes={modes}
@@ -73,6 +77,8 @@ const HhdContainer: VFC<HhdContainerType> = ({
         depth={depth}
         state={state}
         statePath={statePath}
+        updateState={updateState}
+        onChange={onChange}
         hint={hint}
         renderChild={renderChild}
       />

@@ -9,6 +9,8 @@ type DropdownProps = {
   depth: number;
   state: any;
   statePath: string;
+  updateState: any;
+  onChange: any;
   hint?: string;
   renderChild: any;
 };
@@ -22,6 +24,8 @@ const HhdModesDropdown: FC<DropdownProps> = ({
   depth,
   state,
   statePath,
+  updateState,
+  onChange,
   renderChild,
 }) => {
   const dropdownOptions = Object.entries(modes).map(([value, { title }]) => {
@@ -54,12 +58,7 @@ const HhdModesDropdown: FC<DropdownProps> = ({
             return o.data === selectedValue;
           })?.data || defaultValue
         }
-        onChange={
-          () => {}
-          //     ({ data: seconds }) => {
-          //     setPollRate(seconds * 1000);
-          //   }
-        }
+        onChange={onChange}
       />
       {children &&
         children.length > 0 &&
@@ -71,6 +70,7 @@ const HhdModesDropdown: FC<DropdownProps> = ({
             depth: depth + 1,
             parentType: type,
             state,
+            updateState,
             statePath: `${statePath}.${selectedValue}.${childName}`,
           });
         })}
