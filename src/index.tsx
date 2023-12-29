@@ -63,14 +63,16 @@ const AppContainer: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
 export default definePlugin((serverApi: ServerAPI) => {
   registerServerApi(serverApi);
 
+  // fetches data from hhd backend even if React component tree isn't mounted
   store.dispatch(fetchHhdSettings());
   store.dispatch(fetchHhdSettingsState());
 
+  // listen to steam for changes, this runs outside of react
   const unregister = registerForAppLifetimeNotifications();
   const unsubscribeToSuspendEvent = suspendEventListener();
 
   return {
-    title: <div className={staticClasses.Title}>Example Plugin</div>,
+    title: <div className={staticClasses.Title}>HHD</div>,
     content: <AppContainer serverAPI={serverApi} />,
     icon: <FaShip />,
     onDismount() {
