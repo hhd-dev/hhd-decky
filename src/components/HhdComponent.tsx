@@ -8,7 +8,7 @@ import HhdModesDropdown from "./HhdModesDropdown";
 import { useUpdateControllerStateIsLoading } from "../hooks/controller";
 // import { getLogInfo } from "../backend/utils";
 
-interface HhdContainerType extends SettingsType {
+interface HhdComponentType extends SettingsType {
   renderChild?: any;
   depth?: number;
   childName?: string;
@@ -20,7 +20,7 @@ interface HhdContainerType extends SettingsType {
   statePath?: string;
 }
 
-const HhdContainer: VFC<HhdContainerType> = ({
+const HhdComponent: VFC<HhdComponentType> = ({
   type,
   title,
   childName,
@@ -146,7 +146,7 @@ const HhdContainer: VFC<HhdContainerType> = ({
   return null;
 };
 
-interface HhdChildContainerType extends HhdContainerType {
+interface HhdChildContainerType extends HhdComponentType {
   child: SettingsType;
   childOrder: number;
 }
@@ -162,7 +162,7 @@ export const renderChild = ({
   depth,
 }: HhdChildContainerType) => {
   return (
-    <HhdContainer
+    <HhdComponent
       key={childOrder}
       childName={childName}
       renderChild={renderChild}
@@ -176,4 +176,4 @@ export const renderChild = ({
   );
 };
 
-export default HhdContainer;
+export default HhdComponent;

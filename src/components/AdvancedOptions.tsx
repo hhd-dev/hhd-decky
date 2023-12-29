@@ -4,7 +4,7 @@ import {
   selectAllHhdSettings,
   selectAllHhdSettingsLoading,
 } from "../redux-modules/hhdSlice";
-import HhdContainer, { renderChild } from "../components/HhdContainer";
+import HhdComponent, { renderChild } from "./HhdComponent";
 import { useSelector } from "react-redux";
 
 type Props = {
@@ -31,7 +31,7 @@ const AdvancedOptions: VFC<Props> = ({ updateState }) => {
         Advanced Options
       </ButtonItem>
       {showAdvancedOptions && advanced.settings && advanced.state && (
-        <HhdContainer
+        <HhdComponent
           {...advanced.settings}
           updateState={updateState}
           renderChild={renderChild}

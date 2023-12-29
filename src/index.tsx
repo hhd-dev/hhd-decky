@@ -21,7 +21,7 @@ import {
   selectAllHhdSettings,
   selectAllHhdSettingsLoading,
 } from "./redux-modules/hhdSlice";
-import HhdContainer, { renderChild } from "./components/HhdContainer";
+import HhdComponent, { renderChild } from "./components/HhdComponent";
 import {
   fetchHhdSettings,
   fetchHhdSettingsState,
@@ -41,7 +41,7 @@ const Content: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
 
   return (
     <>
-      <HhdContainer
+      <HhdComponent
         {...settings.controller.settings}
         renderChild={renderChild}
         state={settings.controller.state}
