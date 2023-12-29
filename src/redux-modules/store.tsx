@@ -8,7 +8,10 @@ export const store = configureStore({
     ui: uiSlice.reducer,
     hhd: hhdSlice.reducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat([
+      // logger
+    ]),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

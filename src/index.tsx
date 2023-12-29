@@ -23,12 +23,14 @@ import {
   fetchHhdSettings,
   fetchHhdSettingsState,
 } from "./redux-modules/hhdAsyncThunks";
+import { useSetControllerInfo } from "./hooks/controller";
 // import AdvancedOptions from "./components/AdvancedOptions";
 
 const Content: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
   const { displayName } = useSelector(selectCurrentGameInfo);
   const loading = useSelector(selectAllHhdSettingsLoading);
   const settings = useSelector(selectAllHhdSettings);
+  const updateState = useSetControllerInfo();
 
   if (loading) {
     return <SteamSpinner />;
@@ -40,6 +42,7 @@ const Content: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
         {...settings.controller.settings}
         renderChild={renderChild}
         state={settings.controller.state}
+        updateState={updateState}
       />
       {/* <AdvancedOptions /> */}
     </>

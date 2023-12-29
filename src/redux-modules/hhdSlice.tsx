@@ -22,14 +22,14 @@ export type SettingsType = {
 };
 
 interface HhdState {
-  settings?: any;
   settingsState?: any;
+  settings?: any;
   loading: { [loadState: string]: "idle" | "pending" | "succeeded" | "failed" };
 }
 
 const initialState = {
-  settings: undefined,
   settingsState: undefined,
+  settings: undefined,
   loading: { settings: "idle", settingsState: "idle" },
 } as HhdState;
 
@@ -43,7 +43,7 @@ const hhdSlice = createSlice({
       action: PayloadAction<{ path: string; value: any }>
     ) => {
       const { path, value } = action.payload;
-      set(state, `controllers.legion_go.${path}`, value);
+      set(state.settingsState, `controllers.legion_go.${path}`, value);
     },
   },
   extraReducers: (builder) => {
@@ -56,8 +56,10 @@ const hhdSlice = createSlice({
       if (typeof body === "string") {
         const parsedBody = JSON.parse(body);
         state.settings = parsedBody;
-        state.loading.settings = "succeeded";
+      } else {
+        state.settings = body;
       }
+      state.loading.settings = "succeeded";
     });
     builder.addCase(fetchHhdSettingsState.pending, (state) => {
       state.loading.settingsState = "pending";
@@ -68,8 +70,10 @@ const hhdSlice = createSlice({
       if (typeof body === "string") {
         const parsedBody = JSON.parse(body);
         state.settingsState = parsedBody;
-        state.loading.settingsState = "succeeded";
+      } else {
+        state.settingsState = body;
       }
+      state.loading.settingsState = "succeeded";
     });
   },
 });

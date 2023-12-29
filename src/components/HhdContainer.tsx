@@ -13,6 +13,7 @@ interface HhdContainerType extends SettingsType {
   childName?: string;
   parentType?: SettingType;
   state: any;
+  updateState: any;
   // e.g. path in state to set/get the currently set value,
   // such as lodash.get(state, 'xinput.ds5e.led_support')
   statePath?: string;
@@ -31,6 +32,7 @@ const HhdContainer: VFC<HhdContainerType> = ({
   modes,
   depth = 0,
   state,
+  updateState,
   default: defaultValue,
 }) => {
   const renderChildren = () => {
@@ -43,6 +45,7 @@ const HhdContainer: VFC<HhdContainerType> = ({
           depth: depth + 1,
           parentType: type,
           state,
+          updateState,
           statePath: statePath ? `${statePath}.${childName}` : `${childName}`,
         });
       });
@@ -83,8 +86,9 @@ const HhdContainer: VFC<HhdContainerType> = ({
       <ToggleField
         label={title}
         checked={Boolean(checked)}
-        // noop for now
-        onChange={() => {}}
+        onChange={(enabled) => {
+          return updateState(`${statePath}`, enabled);
+        }}
       />
     );
   }
@@ -131,6 +135,7 @@ export const renderChild = ({
   parentType,
   statePath,
   state,
+  updateState,
   depth,
 }: HhdChildContainerType) => {
   return (
@@ -142,6 +147,7 @@ export const renderChild = ({
       parentType={parentType}
       statePath={statePath}
       state={state}
+      updateState={updateState}
       {...child}
     />
   );
