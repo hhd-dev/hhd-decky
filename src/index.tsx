@@ -10,7 +10,10 @@ import {
   registerForAppLifetimeNotifications,
   suspendEventListener,
 } from "./steamListeners";
-import { getLogInfo, registerServerApi } from "./backend/utils";
+import {
+  // getLogInfo,
+  registerServerApi,
+} from "./backend/utils";
 import { Provider, useSelector } from "react-redux";
 import { store } from "./redux-modules/store";
 import { selectCurrentGameInfo } from "./redux-modules/uiSlice";
@@ -44,7 +47,7 @@ const Content: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
         state={settings.controller.state}
         updateState={updateState}
       />
-      {/* <AdvancedOptions /> */}
+      {/* <AdvancedOptions updateState={updateState} /> */}
     </>
   );
 };

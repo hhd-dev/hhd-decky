@@ -1,4 +1,4 @@
-import { extractCurrentGameInfo } from "./backend/utils";
+import { extractCurrentGameInfo, getLogInfo } from "./backend/utils";
 import { LifetimeNotification } from "decky-frontend-lib";
 import { store } from "./redux-modules/store";
 import { resumeAction } from "./redux-modules/extraActions";
@@ -36,7 +36,8 @@ export const suspendEventListener = () => {
 
     return unregister as () => void;
   } catch (e) {
-    console.log(e);
+    const logInfo = getLogInfo();
+    logInfo(e);
   }
   return () => {};
 };

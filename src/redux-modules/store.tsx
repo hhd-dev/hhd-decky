@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { uiSlice } from "./uiSlice";
 import hhdSlice from "./hhdSlice";
-import { logger } from "./logger";
+// import { logger } from "./logger";
 
 export const store = configureStore({
   reducer: {

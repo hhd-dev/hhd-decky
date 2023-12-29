@@ -1,5 +1,5 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { get, set } from "lodash";
+import { createSlice } from "@reduxjs/toolkit";
+import { get } from "lodash";
 import {
   fetchHhdSettings,
   fetchHhdSettingsState,
@@ -41,19 +41,10 @@ const initialState = {
   },
 } as HhdState;
 
-// Then, handle actions in your reducers:
 const hhdSlice = createSlice({
   name: "hhd",
   initialState,
-  reducers: {
-    // updateControllerSettingsState: (
-    //   state,
-    //   action: PayloadAction<{ path: string; value: any }>
-    // ) => {
-    //   const { path, value } = action.payload;
-    //   set(state.settingsState, `controllers.legion_go.${path}`, value);
-    // },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchHhdSettings.pending, (state) => {
       state.loading.settings = "pending";

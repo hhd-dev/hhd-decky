@@ -1,5 +1,5 @@
 import { ButtonItem } from "decky-frontend-lib";
-import { useState } from "react";
+import { useState, VFC } from "react";
 import {
   selectAllHhdSettings,
   selectAllHhdSettingsLoading,
@@ -7,7 +7,11 @@ import {
 import HhdContainer, { renderChild } from "../components/HhdContainer";
 import { useSelector } from "react-redux";
 
-const AdvancedOptions = () => {
+type Props = {
+  updateState: any;
+};
+
+const AdvancedOptions: VFC<Props> = ({ updateState }) => {
   const loading = useSelector(selectAllHhdSettingsLoading);
   const { advanced } = useSelector(selectAllHhdSettings);
 
@@ -29,6 +33,7 @@ const AdvancedOptions = () => {
       {showAdvancedOptions && advanced.settings && advanced.state && (
         <HhdContainer
           {...advanced.settings}
+          updateState={updateState}
           renderChild={renderChild}
           state={advanced.state}
         />

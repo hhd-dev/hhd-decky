@@ -5,7 +5,7 @@ import HhdSlider from "./HhdSlider";
 import { get } from "lodash";
 import HhdDropdown from "./HhdDropdown";
 import HhdModesDropdown from "./HhdModesDropdown";
-import { getLogInfo } from "../backend/utils";
+// import { getLogInfo } from "../backend/utils";
 
 interface HhdContainerType extends SettingsType {
   renderChild?: any;

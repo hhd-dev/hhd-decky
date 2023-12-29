@@ -1,6 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { FetchFnResponseOptions, fetchFn } from "./fetchFn";
-import { SettingsType } from "./hhdSlice";
 import { set } from "lodash";
 
 export const fetchHhdSettings = createAsyncThunk(
