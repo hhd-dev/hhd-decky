@@ -1,13 +1,13 @@
 import { useDispatch } from "react-redux";
-import hhdSlice from "../redux-modules/hhdSlice";
+import { updateControllerSettingsState } from "../redux-modules/hhdAsyncThunks";
+import { AppDispatch } from "../redux-modules/store";
 
 export const useSetControllerInfo = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const setter = (path: string, value: any) => {
-    return dispatch(
-      hhdSlice.actions.updateControllerSettingsState({ path, value })
-    );
+    const action = updateControllerSettingsState({ path, value });
+    return dispatch(action);
   };
 
   return setter;

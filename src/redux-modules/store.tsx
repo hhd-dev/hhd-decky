@@ -11,7 +11,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat([
       // logger for localdev only
-      logger,
+      // logger,
     ]),
 });
 

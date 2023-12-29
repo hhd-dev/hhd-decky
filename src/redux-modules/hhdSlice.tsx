@@ -1,6 +1,10 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { get, set } from "lodash";
-import { fetchHhdSettings, fetchHhdSettingsState } from "./hhdAsyncThunks";
+import {
+  fetchHhdSettings,
+  fetchHhdSettingsState,
+  updateControllerSettingsState,
+} from "./hhdAsyncThunks";
 import { RootState } from "./store";
 
 export type SettingType =
@@ -30,7 +34,11 @@ interface HhdState {
 const initialState = {
   settingsState: undefined,
   settings: undefined,
-  loading: { settings: "idle", settingsState: "idle" },
+  loading: {
+    settings: "idle",
+    settingsState: "idle",
+    updateControllerSettingsState: "idle",
+  },
 } as HhdState;
 
 // Then, handle actions in your reducers:
@@ -38,13 +46,13 @@ const hhdSlice = createSlice({
   name: "hhd",
   initialState,
   reducers: {
-    updateControllerSettingsState: (
-      state,
-      action: PayloadAction<{ path: string; value: any }>
-    ) => {
-      const { path, value } = action.payload;
-      set(state.settingsState, `controllers.legion_go.${path}`, value);
-    },
+    // updateControllerSettingsState: (
+    //   state,
+    //   action: PayloadAction<{ path: string; value: any }>
+    // ) => {
+    //   const { path, value } = action.payload;
+    //   set(state.settingsState, `controllers.legion_go.${path}`, value);
+    // },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchHhdSettings.pending, (state) => {
@@ -75,6 +83,24 @@ const hhdSlice = createSlice({
       }
       state.loading.settingsState = "succeeded";
     });
+
+    builder.addCase(updateControllerSettingsState.pending, (state) => {
+      state.loading.updateControllerSettingsState = "pending";
+    });
+    builder.addCase(
+      updateControllerSettingsState.fulfilled,
+      (state, action) => {
+        //@ts-ignore
+        const body = action.payload.body;
+        if (typeof body === "string") {
+          const parsedBody = JSON.parse(body);
+          state.settingsState = parsedBody;
+        } else {
+          state.settingsState = body;
+        }
+        state.loading.updateControllerSettingsState = "succeeded";
+      }
+    );
   },
 });
 

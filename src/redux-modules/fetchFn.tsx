@@ -31,7 +31,7 @@ const getAuthHeaders = async () => {
 export type FetchFnResponseOptions = {
   method: "GET" | "POST";
   headers?: { [key: string]: string };
-  body?: { [key: string]: string };
+  body?: any;
 };
 
 export const fetchFn = async (
