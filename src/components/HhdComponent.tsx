@@ -5,7 +5,7 @@ import HhdSlider from "./HhdSlider";
 import { get } from "lodash";
 import HhdDropdown from "./HhdDropdown";
 import HhdModesDropdown from "./HhdModesDropdown";
-import { useUpdateControllerStateIsLoading } from "../hooks/controller";
+import { useUpdateHhdStatePending } from "../hooks/controller";
 // import { getLogInfo } from "../backend/utils";
 
 interface HhdComponentType extends SettingsType {
@@ -36,7 +36,7 @@ const HhdComponent: VFC<HhdComponentType> = ({
   updateState,
   default: defaultValue,
 }) => {
-  const updating = useUpdateControllerStateIsLoading();
+  const updating = useUpdateHhdStatePending();
 
   const renderChildren = () => {
     if (children)

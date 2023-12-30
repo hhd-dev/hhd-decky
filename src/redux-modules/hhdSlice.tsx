@@ -1,9 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { get } from "lodash";
 import {
   fetchHhdSettings,
   fetchHhdSettingsState,
-  updateControllerSettingsState,
+  updateHhdState,
 } from "./hhdAsyncThunks";
 import { RootState } from "./store";
 
@@ -37,7 +36,7 @@ const initialState = {
   loading: {
     settings: "idle",
     settingsState: "idle",
-    updateControllerSettingsState: "idle",
+    updateHhdState: "idle",
   },
 } as HhdState;
 
@@ -75,23 +74,20 @@ const hhdSlice = createSlice({
       state.loading.settingsState = "succeeded";
     });
 
-    builder.addCase(updateControllerSettingsState.pending, (state) => {
-      state.loading.updateControllerSettingsState = "pending";
+    builder.addCase(updateHhdState.pending, (state) => {
+      state.loading.updateHhdState = "pending";
     });
-    builder.addCase(
-      updateControllerSettingsState.fulfilled,
-      (state, action) => {
-        //@ts-ignore
-        const body = action.payload.body;
-        if (typeof body === "string") {
-          const parsedBody = JSON.parse(body);
-          state.settingsState = parsedBody;
-        } else {
-          state.settingsState = body;
-        }
-        state.loading.updateControllerSettingsState = "succeeded";
+    builder.addCase(updateHhdState.fulfilled, (state, action) => {
+      //@ts-ignore
+      const body = action.payload.body;
+      if (typeof body === "string") {
+        const parsedBody = JSON.parse(body);
+        state.settingsState = parsedBody;
+      } else {
+        state.settingsState = body;
       }
-    );
+      state.loading.updateHhdState = "succeeded";
+    });
   },
 });
 
@@ -101,33 +97,12 @@ export const selectHhdSettings = (state: RootState) => {
   return state.hhd.settings;
 };
 
-const selectHhdSettingsState = (state: RootState) => {
+export const selectHhdSettingsState = (state: RootState) => {
   return state.hhd.settingsState;
 };
 
-export const selectAllHhdSettings = (state: RootState) => {
-  const settings = selectHhdSettings(state);
-  const settingsState = selectHhdSettingsState(state);
-
-  const controllerSettings = get(
-    settings,
-    "controllers.legion_go"
-  ) as SettingsType;
-  const advancedSettings = get(settings, "hhd.http") as SettingsType;
-
-  const userState = get(settingsState, "controllers.legion_go");
-  const advancedSettingsState = get(settingsState, "hhd.http");
-
-  return {
-    controller: {
-      settings: controllerSettings,
-      state: userState,
-    },
-    advanced: {
-      settings: advancedSettings,
-      state: advancedSettingsState,
-    },
-  };
+export const selectUpdateHhdStatePending = (state: RootState) => {
+  return state.hhd.loading.updateHhdState === "pending";
 };
 
 const selectHhdSettingsLoading = (state: RootState) =>
@@ -135,10 +110,6 @@ const selectHhdSettingsLoading = (state: RootState) =>
 
 const selectHhdSettingsStateLoading = (state: RootState) =>
   state.hhd.loading.settingsState;
-
-export const selectUpdateControllerSettingsLoading = (state: RootState) => {
-  return state.hhd.loading.updateControllerSettingsState === "pending";
-};
 
 export const selectAllHhdSettingsLoading = (state: RootState) => {
   return (

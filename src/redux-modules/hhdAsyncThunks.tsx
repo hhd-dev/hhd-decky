@@ -19,10 +19,10 @@ export const fetchHhdSettingsState = createAsyncThunk(
   }
 );
 
-export const updateControllerSettingsState = createAsyncThunk(
-  "hhd/updateControllerSettingsState",
+export const updateHhdState = createAsyncThunk(
+  "hhd/updateHhdState",
   async ({ path, value }: { path: string; value: any }, thunkApi) => {
-    const body = set({}, `controllers.legion_go.${path}`, value);
+    const body = set({}, path, value);
 
     const options: FetchFnResponseOptions = {
       method: "POST",

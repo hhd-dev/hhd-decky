@@ -17,23 +17,17 @@ import {
 import { Provider, useSelector } from "react-redux";
 import { store } from "./redux-modules/store";
 import { selectCurrentGameInfo } from "./redux-modules/uiSlice";
-import {
-  selectAllHhdSettings,
-  selectAllHhdSettingsLoading,
-} from "./redux-modules/hhdSlice";
-import HhdComponent, { renderChild } from "./components/HhdComponent";
+import { selectAllHhdSettingsLoading } from "./redux-modules/hhdSlice";
 import {
   fetchHhdSettings,
   fetchHhdSettingsState,
 } from "./redux-modules/hhdAsyncThunks";
-import { useSetControllerInfo } from "./hooks/controller";
+import HhdState from "./components/HhdState";
 // import AdvancedOptions from "./components/AdvancedOptions";
 
 const Content: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
   const { displayName } = useSelector(selectCurrentGameInfo);
   const loading = useSelector(selectAllHhdSettingsLoading);
-  const settings = useSelector(selectAllHhdSettings);
-  const updateState = useSetControllerInfo();
 
   if (loading) {
     return <SteamSpinner />;
@@ -41,13 +35,7 @@ const Content: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
 
   return (
     <>
-      <HhdComponent
-        {...settings.controller.settings}
-        renderChild={renderChild}
-        state={settings.controller.state}
-        updateState={updateState}
-      />
-      {/* <AdvancedOptions updateState={updateState} /> */}
+      <HhdState />
     </>
   );
 };
