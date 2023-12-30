@@ -49,28 +49,14 @@ const hhdSlice = createSlice({
       state.loading.settings = "pending";
     });
     builder.addCase(fetchHhdSettings.fulfilled, (state, action) => {
-      //@ts-ignore
-      const body = action.payload.body;
-      if (typeof body === "string") {
-        const parsedBody = JSON.parse(body);
-        state.settings = parsedBody;
-      } else {
-        state.settings = body;
-      }
+      state.settings = action.payload;
       state.loading.settings = "succeeded";
     });
     builder.addCase(fetchHhdSettingsState.pending, (state) => {
       state.loading.settingsState = "pending";
     });
     builder.addCase(fetchHhdSettingsState.fulfilled, (state, action) => {
-      //@ts-ignore
-      const body = action.payload.body;
-      if (typeof body === "string") {
-        const parsedBody = JSON.parse(body);
-        state.settingsState = parsedBody;
-      } else {
-        state.settingsState = body;
-      }
+      state.settingsState = action.payload;
       state.loading.settingsState = "succeeded";
     });
 
@@ -78,14 +64,7 @@ const hhdSlice = createSlice({
       state.loading.updateHhdState = "pending";
     });
     builder.addCase(updateHhdState.fulfilled, (state, action) => {
-      //@ts-ignore
-      const body = action.payload.body;
-      if (typeof body === "string") {
-        const parsedBody = JSON.parse(body);
-        state.settingsState = parsedBody;
-      } else {
-        state.settingsState = body;
-      }
+      state.settingsState = action.payload;
       state.loading.updateHhdState = "succeeded";
     });
   },

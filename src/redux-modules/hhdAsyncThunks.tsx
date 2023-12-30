@@ -5,32 +5,50 @@ import { set } from "lodash";
 export const fetchHhdSettings = createAsyncThunk(
   "hhd/fetchHhdSettings",
   async () => {
-    const response = await fetchFn("settings");
-    return response.result;
+    const { result } = await fetchFn("settings");
+
+    //@ts-ignore
+    const body = result.body as string;
+    if (body && typeof body === "string") {
+      return JSON.parse(body);
+    }
+
+    return body;
   }
 );
 
 export const fetchHhdSettingsState = createAsyncThunk(
   "hhd/fetchHhdSettingsState",
   async () => {
-    const response = await fetchFn("state");
+    const { result } = await fetchFn("state");
+    //@ts-ignore
+    const body = result.body as string;
+    if (body && typeof body === "string") {
+      return JSON.parse(body);
+    }
 
-    return response.result;
+    return body;
   }
 );
 
 export const updateHhdState = createAsyncThunk(
   "hhd/updateHhdState",
   async ({ path, value }: { path: string; value: any }, thunkApi) => {
-    const body = set({}, path, value);
+    const postBody = set({}, path, value);
 
     const options: FetchFnResponseOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
+      body: JSON.stringify(postBody),
     };
-    const response = await fetchFn("state", options);
+    const { result } = await fetchFn("state", options);
 
-    return response.result;
+    //@ts-ignore
+    const body = result.body as string;
+    if (body && typeof body === "string") {
+      return JSON.parse(body);
+    }
+
+    return body;
   }
 );
