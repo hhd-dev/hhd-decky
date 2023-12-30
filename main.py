@@ -33,6 +33,21 @@ class Plugin:
         except Exception as e:
             decky_plugin.logger.error(f"failure retrieving token {e}")
             return False
+        
+    async def get_settings(self):
+        try:
+            return plugin_settings.get_settings()
+        except Exception as e:
+            decky_plugin.logger.error(f"failure retrieving settings {e}")
+            return False
+
+    async def set_setting(self, name, value):
+        try:
+            plugin_settings.set_setting(name, value)
+            return True
+        except Exception as e:
+            decky_plugin.logger.error(f"failure saving setting {name}={value} {e}")
+            return False
 
     # Migrations that should be performed before entering `_main()`.
     async def _migration(self):
