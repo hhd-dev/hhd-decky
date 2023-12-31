@@ -17,7 +17,7 @@ const HhdState = () => {
   return (
     <div>
       {Object.entries(settings).map(([topLevelStr, plugins], topIdx) => {
-        if (topLevelStr === "version") {
+        if (topLevelStr === "version" || topLevelStr === "hhd") {
           return null;
         }
         return (
