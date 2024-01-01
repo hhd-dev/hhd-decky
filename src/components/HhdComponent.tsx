@@ -63,7 +63,7 @@ const HhdComponent: VFC<HhdComponentType> = ({
       </PanelSection>
     );
   }
-  if (type === "mode" && childName === "xinput" && modes && statePath) {
+  if (type === "mode" && modes && statePath) {
     // specially handle xinput child
     const value = get(state, `${statePath}.mode`, defaultValue);
 

@@ -25,12 +25,14 @@ export type SettingsType = {
 };
 
 interface HhdState {
+  perGameProfilesEnabled: boolean;
   settingsState?: any;
   settings?: any;
   loading: { [loadState: string]: "idle" | "pending" | "succeeded" | "failed" };
 }
 
 const initialState = {
+  perGameProfilesEnabled: false,
   settingsState: undefined,
   settings: undefined,
   loading: {
