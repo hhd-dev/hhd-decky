@@ -5,15 +5,15 @@ Decky Frontend for HHD
 # Requirements
 
 - latest version of HHD installed and running
-- HHD web server enabled
-  - edit `$HOME/.config/hhd/state.yml`, change `enable` under `http` to `true`
 - verify the webserver is working by going to `localhost:5335` in a web browser, you should be greeted with a basic hhd webpage
+- If the web server isn't working, you will need to manually enable it
+  - edit `$HOME/.config/hhd/state.yml`, change `enable` under `http` to `true`, then reboot
 
 # Install
 
 ### Prerequisites
 
-Decky Loader must already be installed.
+Decky Loader and HHD must already be installed, with the hhd http server enabled and working.
 
 ### Quick Install
 
