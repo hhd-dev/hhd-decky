@@ -2,6 +2,8 @@
 
 Decky Frontend for HHD
 
+![plugin image](./images/plugin_image.png)
+
 # Requirements
 
 - latest version of HHD installed and running
