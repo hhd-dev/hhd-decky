@@ -36,7 +36,7 @@ const Content: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
   }, [])
 
   if (loading) {
-    return <SteamSpinner />;
+    return null;
   }
 
   return (
