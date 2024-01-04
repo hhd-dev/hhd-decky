@@ -2,7 +2,6 @@ import {
   definePlugin,
   ServerAPI,
   staticClasses,
-  SteamSpinner,
 } from "decky-frontend-lib";
 import { useEffect, VFC } from "react";
 import { FaGamepad } from "react-icons/fa";
@@ -23,7 +22,6 @@ import {
   fetchHhdSettingsState,
 } from "./redux-modules/hhdAsyncThunks";
 import HhdState from "./components/HhdState";
-// import AdvancedOptions from "./components/AdvancedOptions";
 
 const Content: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
   const { displayName } = useSelector(selectCurrentGameInfo);

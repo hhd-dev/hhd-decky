@@ -6,6 +6,7 @@ import { get } from "lodash";
 import HhdDropdown from "./HhdDropdown";
 import HhdModesDropdown from "./HhdModesDropdown";
 import { useUpdateHhdStatePending } from "../hooks/controller";
+import HhdIntSlider from "./HhdIntSlider";
 // import { getLogInfo } from "../backend/utils";
 
 interface HhdComponentType extends SettingsType {
@@ -29,6 +30,8 @@ const HhdComponent: VFC<HhdComponentType> = ({
   statePath,
   children,
   options,
+  min,
+  max,
   renderChild,
   modes,
   depth = 0,
@@ -117,6 +120,27 @@ const HhdComponent: VFC<HhdComponentType> = ({
         value={value}
         defaultValue={defaultValue}
         options={options}
+        title={title}
+        handleSliderChange={handleSliderChange}
+        disabled={updating}
+      />
+    );
+  }
+
+  if (type === "int" && min !== undefined && max && min < max) {
+    // int slider component
+    const value = get(state, `${statePath}`, defaultValue);
+
+    const handleSliderChange = (value: any) => {
+      return updateState(`${statePath}`, value);
+    };
+
+    return (
+      <HhdIntSlider
+        value={value}
+        defaultValue={defaultValue}
+        min={min}
+        max={max}
         title={title}
         handleSliderChange={handleSliderChange}
         disabled={updating}

@@ -21,6 +21,8 @@ export type SettingsType = {
   hint?: string;
   options?: any;
   modes?: any;
+  min?: number;
+  max?: number;
   children?: { [childName: string]: SettingsType };
 };
 
