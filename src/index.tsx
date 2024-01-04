@@ -4,7 +4,7 @@ import {
   staticClasses,
   SteamSpinner,
 } from "decky-frontend-lib";
-import { VFC } from "react";
+import { useEffect, VFC } from "react";
 import { FaGamepad } from "react-icons/fa";
 import {
   registerForAppLifetimeNotifications,
@@ -14,8 +14,8 @@ import {
   // getLogInfo,
   registerServerApi,
 } from "./backend/utils";
-import { Provider, useSelector } from "react-redux";
-import { store } from "./redux-modules/store";
+import { Provider, useDispatch, useSelector } from "react-redux";
+import { AppDispatch, store } from "./redux-modules/store";
 import { selectCurrentGameInfo } from "./redux-modules/uiSlice";
 import { selectAllHhdSettingsLoading } from "./redux-modules/hhdSlice";
 import {
@@ -28,6 +28,12 @@ import HhdState from "./components/HhdState";
 const Content: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
   const { displayName } = useSelector(selectCurrentGameInfo);
   const loading = useSelector(selectAllHhdSettingsLoading);
+  const dispatch = useDispatch<AppDispatch>()
+
+  useEffect(() => {
+    dispatch(fetchHhdSettings());
+    dispatch(fetchHhdSettingsState());
+  }, [])
 
   if (loading) {
     return <SteamSpinner />;
