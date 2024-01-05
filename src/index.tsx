@@ -63,7 +63,7 @@ export default definePlugin((serverApi: ServerAPI) => {
   const unsubscribeToSuspendEvent = suspendEventListener();
 
   return {
-    title: <div className={staticClasses.Title}>HHD</div>,
+    title: <div className={staticClasses.Title}>Handheld Daemon</div>,
     content: <AppContainer serverAPI={serverApi} />,
     icon: <FaGamepad />,
     onDismount() {
