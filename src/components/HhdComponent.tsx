@@ -1,6 +1,12 @@
 import { VFC } from "react";
 import { SettingType, SettingsType } from "../redux-modules/hhdSlice";
-import { PanelSection, ToggleField } from "decky-frontend-lib";
+import {
+  ButtonItem,
+  Field,
+  PanelSection,
+  PanelSectionRow,
+  ToggleField,
+} from "decky-frontend-lib";
 import HhdSlider from "./HhdSlider";
 import { get } from "lodash";
 import HhdDropdown from "./HhdDropdown";
@@ -172,6 +178,40 @@ const HhdComponent: VFC<HhdComponentType> = ({
         disabled={updating}
         otherProps={otherProps}
       />
+    );
+  }
+
+  if (type === "display" && title) {
+    // show info, shouldn't be interactive
+    const value = get(state, `${statePath}`);
+
+    if (!value) {
+      return null;
+    }
+
+    return (
+      <Field disabled label={title}>
+        {value}
+      </Field>
+    );
+  }
+
+  if (type === "action" && title) {
+    return (
+      <PanelSectionRow>
+        <ButtonItem
+          onClick={() => updateState(`${statePath}`, true)}
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          layout={"below"}
+        >
+          {title}
+        </ButtonItem>
+      </PanelSectionRow>
     );
   }
 

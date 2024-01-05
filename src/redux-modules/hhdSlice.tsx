@@ -12,7 +12,9 @@ export type SettingType =
   | "mode"
   | "discrete"
   | "multiple"
-  | "int";
+  | "int"
+  | "display"
+  | "action";
 
 export type SettingsType = {
   type: SettingType;
