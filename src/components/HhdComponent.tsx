@@ -45,9 +45,15 @@ const HhdComponent: VFC<HhdComponentType> = ({
   state,
   updateState,
   otherProps,
+  tags,
   default: defaultValue,
 }) => {
   const updating = useUpdateHhdStatePending();
+
+  if (tags && tags.indexOf("advanced") >= 0) {
+    // don't render advanced values
+    return null;
+  }
 
   const renderChildren = () => {
     if (children)
@@ -61,6 +67,7 @@ const HhdComponent: VFC<HhdComponentType> = ({
           state,
           updateState,
           otherProps,
+          tags,
           statePath: statePath ? `${statePath}.${childName}` : `${childName}`,
         });
       });
@@ -232,6 +239,7 @@ export const renderChild = ({
   state,
   updateState,
   otherProps,
+  tags,
   depth,
 }: HhdChildContainerType) => {
   return (
@@ -245,6 +253,7 @@ export const renderChild = ({
       state={state}
       updateState={updateState}
       otherProps={otherProps}
+      tags={tags}
       {...child}
     />
   );

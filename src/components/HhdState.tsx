@@ -17,15 +17,9 @@ const HhdState = () => {
   return (
     <div>
       {Object.entries(settings).map(([topLevelStr, plugins], topIdx) => {
-        if (topLevelStr === "version") {
-          return null;
-        }
         return (
           <div key={topIdx}>
             {Object.keys(plugins).map((pluginName, idx) => {
-              if (topLevelStr === "hhd" && pluginName === "http") {
-                return null;
-              }
               const plugin = plugins[pluginName] as SettingsType;
               const statePath = `${topLevelStr}.${pluginName}`;
 
