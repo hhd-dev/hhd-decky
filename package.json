@@ -1,6 +1,6 @@
 {
   "name": "hhd-decky",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "decky frontend for hhd",
   "scripts": {
     "build": "shx rm -rf dist && rollup -c",

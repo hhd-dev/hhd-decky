@@ -1,5 +1,5 @@
 {
-  "name": "HHD",
+  "name": "Handheld Daemon",
   "author": "Aarron Lee",
   "flags": ["_root"],
   "publish": {
