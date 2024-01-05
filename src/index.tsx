@@ -1,8 +1,4 @@
-import {
-  definePlugin,
-  ServerAPI,
-  staticClasses,
-} from "decky-frontend-lib";
+import { definePlugin, ServerAPI, staticClasses } from "decky-frontend-lib";
 import { useEffect, VFC } from "react";
 import { FaGamepad } from "react-icons/fa";
 import {
@@ -26,12 +22,12 @@ import HhdState from "./components/HhdState";
 const Content: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
   const { displayName } = useSelector(selectCurrentGameInfo);
   const loading = useSelector(selectAllHhdSettingsLoading);
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     dispatch(fetchHhdSettings());
     dispatch(fetchHhdSettingsState());
-  }, [])
+  }, []);
 
   if (loading) {
     return null;

@@ -23,8 +23,6 @@ const HhdIntSlider: FC<PropType> = ({
   disabled,
   ...otherProps
 }) => {
-
-
   const onChange = (value: number) => {
     return handleSliderChange(value);
   };
