@@ -7,6 +7,7 @@ type PropType = {
   options: any[];
   title: string;
   hint?: string;
+  otherProps?: { [prop: string]: any };
   handleSliderChange?: any;
   disabled: boolean;
 };
@@ -19,7 +20,8 @@ const HhdSlider: FC<PropType> = ({
   hint,
   handleSliderChange,
   disabled,
-  ...otherProps
+  otherProps,
+  ...extraProps
 }) => {
   const MODES: NotchLabel[] = options.map((option: number, idx: number) => {
     return { notchIndex: idx, label: `${option}`, value: option };
@@ -48,6 +50,7 @@ const HhdSlider: FC<PropType> = ({
         bottomSeparator={"none"}
         onChange={onChange}
         {...otherProps}
+        {...extraProps}
       />
     </>
   );

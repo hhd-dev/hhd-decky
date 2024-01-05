@@ -14,6 +14,7 @@ type DropdownProps = {
   hint?: string;
   renderChild: any;
   disabled: boolean;
+  otherProps?: any;
 };
 
 const HhdModesDropdown: FC<DropdownProps> = ({
@@ -28,6 +29,7 @@ const HhdModesDropdown: FC<DropdownProps> = ({
   updateState,
   onChange,
   renderChild,
+  otherProps,
   disabled,
 }) => {
   const dropdownOptions = Object.entries(modes).map(([value, { title }]) => {
@@ -56,16 +58,22 @@ const HhdModesDropdown: FC<DropdownProps> = ({
             value: o.value,
           };
         })}
+        bottomSeparator="none"
         selectedOption={
           dropdownOptions.find((o) => {
             return o.data === selectedValue;
           })?.data || defaultValue
         }
         onChange={onChange}
+        {...otherProps}
       />
       {children &&
         children.length > 0 &&
         children.map(([childName, child], idx) => {
+          let additionalProps = { bottomSeparator: "none" };
+          if (idx == children.length - 1) {
+            additionalProps["bottomSeparator"] = "standard";
+          }
           return renderChild({
             childName,
             child,
@@ -75,6 +83,7 @@ const HhdModesDropdown: FC<DropdownProps> = ({
             state,
             updateState,
             statePath: `${statePath}.${selectedValue}.${childName}`,
+            otherProps: additionalProps,
           });
         })}
     </>

@@ -8,6 +8,7 @@ type DropdownProps = {
   onChange: any;
   title: string;
   hint?: string;
+  otherProps?: { [prop: string]: any };
   disabled: boolean;
 };
 
@@ -17,6 +18,7 @@ const HhdDropdown: FC<DropdownProps> = ({
   selectedValue,
   onChange,
   title,
+  otherProps,
   hint,
   disabled,
 }) => {
@@ -46,6 +48,7 @@ const HhdDropdown: FC<DropdownProps> = ({
         })?.data || defaultValue
       }
       onChange={onChange}
+      {...otherProps}
     />
   );
 };

@@ -16,6 +16,7 @@ interface HhdComponentType extends SettingsType {
   parentType?: SettingType;
   state: any;
   updateState: any;
+  otherProps?: { [prop: string]: any };
   // e.g. path in state to set/get the currently set value,
   // such as lodash.get(state, 'xinput.ds5e.led_support')
   statePath?: string;
@@ -37,6 +38,7 @@ const HhdComponent: VFC<HhdComponentType> = ({
   depth = 0,
   state,
   updateState,
+  otherProps,
   default: defaultValue,
 }) => {
   const updating = useUpdateHhdStatePending();
@@ -52,6 +54,7 @@ const HhdComponent: VFC<HhdComponentType> = ({
           parentType: type,
           state,
           updateState,
+          otherProps,
           statePath: statePath ? `${statePath}.${childName}` : `${childName}`,
         });
       });
@@ -86,6 +89,7 @@ const HhdComponent: VFC<HhdComponentType> = ({
         updateState={updateState}
         onChange={onChange}
         hint={hint}
+        otherProps={otherProps}
         renderChild={renderChild}
         disabled={updating}
       />
@@ -103,6 +107,7 @@ const HhdComponent: VFC<HhdComponentType> = ({
           return updateState(`${statePath}`, enabled);
         }}
         disabled={updating}
+        {...otherProps}
       />
     );
   }
@@ -123,6 +128,7 @@ const HhdComponent: VFC<HhdComponentType> = ({
         title={title}
         handleSliderChange={handleSliderChange}
         disabled={updating}
+        otherProps={otherProps}
       />
     );
   }
@@ -144,6 +150,7 @@ const HhdComponent: VFC<HhdComponentType> = ({
         title={title}
         handleSliderChange={handleSliderChange}
         disabled={updating}
+        otherProps={otherProps}
       />
     );
   }
@@ -163,6 +170,7 @@ const HhdComponent: VFC<HhdComponentType> = ({
         selectedValue={get(state, `${statePath}`, defaultValue)}
         onChange={onChange}
         disabled={updating}
+        otherProps={otherProps}
       />
     );
   }
@@ -183,6 +191,7 @@ export const renderChild = ({
   statePath,
   state,
   updateState,
+  otherProps,
   depth,
 }: HhdChildContainerType) => {
   return (
@@ -195,6 +204,7 @@ export const renderChild = ({
       statePath={statePath}
       state={state}
       updateState={updateState}
+      otherProps={otherProps}
       {...child}
     />
   );

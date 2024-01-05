@@ -8,6 +8,7 @@ type PropType = {
   hint?: string;
   min: number;
   max: number;
+  otherProps?: { [prop: string]: any };
   handleSliderChange?: any;
   disabled: boolean;
 };
@@ -21,7 +22,8 @@ const HhdIntSlider: FC<PropType> = ({
   max,
   handleSliderChange,
   disabled,
-  ...otherProps
+  otherProps,
+  ...extraProps
 }) => {
   const onChange = (value: number) => {
     return handleSliderChange(value);
@@ -39,6 +41,7 @@ const HhdIntSlider: FC<PropType> = ({
         showValue
         bottomSeparator={"none"}
         onChange={onChange}
+        {...extraProps}
         {...otherProps}
       />
     </>
