@@ -14,7 +14,10 @@ export const getServerApi = () => {
 };
 
 export const getLogInfo = () => (info: any) => {
-  serverApi?.callPluginMethod("log_to_backend", { info: JSON.stringify(info) });
+  if (typeof info !== "string") {
+    info = JSON.stringify(info);
+  }
+  serverApi?.callPluginMethod("log_to_backend", { info });
 };
 
 export const extractCurrentGameDisplayName = () =>

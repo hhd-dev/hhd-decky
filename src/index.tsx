@@ -18,6 +18,7 @@ import {
   fetchHhdSettingsState,
 } from "./redux-modules/hhdAsyncThunks";
 import HhdState from "./components/HhdState";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 const Content: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
   const { displayName } = useSelector(selectCurrentGameInfo);
@@ -43,7 +44,9 @@ const Content: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
 const AppContainer: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
   return (
     <Provider store={store}>
-      <Content serverAPI={serverAPI} />
+      <ErrorBoundary>
+        <Content serverAPI={serverAPI} />
+      </ErrorBoundary>
     </Provider>
   );
 };
