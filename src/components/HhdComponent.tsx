@@ -157,7 +157,6 @@ const HhdComponent: VFC<HhdComponentType> = ({
     return (
       <HhdIntSlider
         value={value}
-        defaultValue={defaultValue}
         min={min}
         max={max}
         title={title}

@@ -1,9 +1,8 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { SliderField } from "decky-frontend-lib";
 
 type PropType = {
   value: number;
-  defaultValue: number;
   title: string;
   hint?: string;
   min: number;
@@ -15,7 +14,6 @@ type PropType = {
 
 const HhdIntSlider: FC<PropType> = ({
   value,
-  defaultValue,
   title,
   hint,
   min,
@@ -25,15 +23,20 @@ const HhdIntSlider: FC<PropType> = ({
   otherProps,
   ...extraProps
 }) => {
-  const onChange = (value: number) => {
-    return handleSliderChange(value);
+  // decky slider components are buggy.
+  // Add local state to force rerendering of component
+  const [sliderValue, setSliderValue] = useState(value);
+
+  const onChange = (v: number) => {
+    handleSliderChange(v);
+    setSliderValue(v);
   };
 
   return (
     <>
       <SliderField
         label={title}
-        value={value || defaultValue}
+        value={sliderValue}
         disabled={disabled}
         min={min}
         max={max}
