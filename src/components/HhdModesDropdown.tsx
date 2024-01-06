@@ -13,7 +13,6 @@ type DropdownProps = {
   onChange: any;
   hint?: string;
   renderChild: any;
-  disabled: boolean;
   otherProps?: any;
 };
 
@@ -30,7 +29,6 @@ const HhdModesDropdown: FC<DropdownProps> = ({
   onChange,
   renderChild,
   otherProps,
-  disabled,
 }) => {
   const dropdownOptions = Object.entries(modes).map(([value, { title }]) => {
     return {
@@ -49,7 +47,6 @@ const HhdModesDropdown: FC<DropdownProps> = ({
     <>
       <DropdownItem
         label={title}
-        disabled={disabled}
         description={hint}
         rgOptions={dropdownOptions.map((o) => {
           return {

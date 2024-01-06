@@ -9,7 +9,6 @@ type PropType = {
   hint?: string;
   otherProps?: { [prop: string]: any };
   handleSliderChange?: any;
-  disabled: boolean;
 };
 
 const HhdSlider: FC<PropType> = ({
@@ -19,7 +18,6 @@ const HhdSlider: FC<PropType> = ({
   title,
   hint,
   handleSliderChange,
-  disabled,
   otherProps,
   ...extraProps
 }) => {
@@ -40,7 +38,6 @@ const HhdSlider: FC<PropType> = ({
       <SliderField
         label={title}
         value={sliderValue}
-        disabled={disabled}
         min={0}
         max={MODES.length - 1}
         step={1}

@@ -9,7 +9,6 @@ type DropdownProps = {
   title: string;
   hint?: string;
   otherProps?: { [prop: string]: any };
-  disabled: boolean;
 };
 
 const HhdDropdown: FC<DropdownProps> = ({
@@ -20,7 +19,6 @@ const HhdDropdown: FC<DropdownProps> = ({
   title,
   otherProps,
   hint,
-  disabled,
 }) => {
   const dropdownOptions = Object.entries(options).map(([value, label]) => {
     return {
@@ -34,7 +32,6 @@ const HhdDropdown: FC<DropdownProps> = ({
     <DropdownItem
       label={title}
       description={hint}
-      disabled={disabled}
       rgOptions={dropdownOptions.map((o) => {
         return {
           data: o.data,

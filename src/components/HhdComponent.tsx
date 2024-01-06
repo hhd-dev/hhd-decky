@@ -15,6 +15,8 @@ import { useUpdateHhdStatePending } from "../hooks/controller";
 import HhdIntSlider from "./HhdIntSlider";
 // import { getLogInfo } from "../backend/utils";
 
+const noop = () => {};
+
 interface HhdComponentType extends SettingsType {
   renderChild?: any;
   depth?: number;
@@ -74,7 +76,7 @@ const HhdComponent: VFC<HhdComponentType> = ({
     return;
   };
 
-  if (depth === 0 && type === "container") {
+  if (type === "container") {
     // root container type
     return (
       <PanelSection title={title}>
@@ -100,11 +102,10 @@ const HhdComponent: VFC<HhdComponentType> = ({
         state={state}
         statePath={statePath}
         updateState={updateState}
-        onChange={onChange}
+        onChange={updating ? noop : onChange}
         hint={hint}
         otherProps={otherProps}
         renderChild={renderChild}
-        disabled={updating}
       />
     );
   }
@@ -117,6 +118,9 @@ const HhdComponent: VFC<HhdComponentType> = ({
         label={title}
         checked={Boolean(checked)}
         onChange={(enabled) => {
+          if (updating) {
+            return;
+          }
           return updateState(`${statePath}`, enabled);
         }}
         disabled={updating}
@@ -139,8 +143,7 @@ const HhdComponent: VFC<HhdComponentType> = ({
         defaultValue={defaultValue}
         options={options}
         title={title}
-        handleSliderChange={handleSliderChange}
-        disabled={updating}
+        handleSliderChange={updating ? noop : handleSliderChange}
         otherProps={otherProps}
       />
     );
@@ -160,8 +163,7 @@ const HhdComponent: VFC<HhdComponentType> = ({
         min={min}
         max={max}
         title={title}
-        handleSliderChange={handleSliderChange}
-        disabled={updating}
+        handleSliderChange={updating ? noop : handleSliderChange}
         otherProps={otherProps}
       />
     );
@@ -180,8 +182,7 @@ const HhdComponent: VFC<HhdComponentType> = ({
         defaultValue={defaultValue}
         hint={hint}
         selectedValue={get(state, `${statePath}`, defaultValue)}
-        onChange={onChange}
-        disabled={updating}
+        onChange={updating ? noop : onChange}
         otherProps={otherProps}
       />
     );
