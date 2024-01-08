@@ -5,9 +5,12 @@ import os
 # or add the `decky-loader/plugin` path to `python.analysis.extraPaths` in `.vscode/settings.json`
 import plugin_settings
 import decky_plugin
+import yaml
 
 PLUGIN_USER = os.environ["DECKY_USER"]
 HHD_TOKEN_PATH = f"/home/{PLUGIN_USER}/.config/hhd/token"
+HHD_STATE_PATH = f"/home/{PLUGIN_USER}/.config/hhd/state.yml"
+DEFAULT_PORT = 5335
 
 class Plugin:
     # Asyncio-compatible long-running code, executed in a task when the plugin is loaded
@@ -21,6 +24,22 @@ class Plugin:
 
     async def log_to_backend(self, info):
         decky_plugin.logger.info(info)
+
+    async def retrieve_http_port(self):
+        try:
+            decky_plugin.logger.info(f"retrieving http_port from {HHD_STATE_PATH}")
+
+            if os.path.exists(HHD_STATE_PATH):
+                hhd_state = open(HHD_STATE_PATH, 'r').read()
+                yaml_object = yaml.safe_load(hhd_state)
+                port = yaml_object.get('hhd').get('http').get('port')
+                decky_plugin.logger.info(f"http_port {port}")
+                if port == "default":
+                    return DEFAULT_PORT
+                return port or DEFAULT_PORT
+        except Exception as e:
+            decky_plugin.logger.error(f"failure retrieving hhd state {e}")
+            return False
 
     async def retrieve_hhd_token(self):
         try:

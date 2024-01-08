@@ -16,6 +16,17 @@ serverApi.callServerMethod(
 )
 */
 
+const getPortNum = async () => {
+  const serverApi = getServerApi() as ServerAPI;
+
+  const result = await serverApi.callPluginMethod("retrieve_http_port", {});
+  if (result.success) {
+    return `${result.result}`;
+  }
+  // default port
+  return 5335;
+};
+
 const getAuthHeaders = async () => {
   const serverApi = getServerApi() as ServerAPI;
 
@@ -39,6 +50,7 @@ export const fetchFn = async (
   options?: FetchFnResponseOptions
 ) => {
   const authHeaders = await getAuthHeaders();
+  const port = await getPortNum();
   const serverApi = getServerApi() as ServerAPI;
 
   if (!options) {
@@ -52,7 +64,7 @@ export const fetchFn = async (
     : authHeaders;
 
   const response = await serverApi.fetchNoCors(
-    `http://127.0.0.1:5335/api/v1/${url}`,
+    `http://127.0.0.1:${port}/api/v1/${url}`,
     //@ts-ignore
     options
   );
