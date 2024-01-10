@@ -37,7 +37,7 @@ export const shouldRenderChild = (tags: string[], isSteamDeckMode: boolean) => {
     return false;
   }
 
-  if (isSteamDeckMode && tags.indexOf("non_steamdeck_mode") >= 0) {
+  if (isSteamDeckMode && tags.indexOf("non_steamdeck") >= 0) {
     // don't render bpm only values
     return false;
   }
