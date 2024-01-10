@@ -24,11 +24,26 @@ interface HhdComponentType extends SettingsType {
   parentType?: SettingType;
   state: any;
   updateState: any;
+  isSteamDeckMode: boolean;
   otherProps?: { [prop: string]: any };
   // e.g. path in state to set/get the currently set value,
   // such as lodash.get(state, 'xinput.ds5e.led_support')
   statePath?: string;
 }
+
+export const shouldRenderChild = (tags: string[], isSteamDeckMode: boolean) => {
+  if (tags.indexOf("advanced") >= 0) {
+    // don't render advanced values
+    return false;
+  }
+
+  if (isSteamDeckMode && tags.indexOf("non_steamdeck_mode") >= 0) {
+    // don't render bpm only values
+    return false;
+  }
+
+  return true;
+};
 
 const HhdComponent: VFC<HhdComponentType> = ({
   type,
@@ -48,12 +63,12 @@ const HhdComponent: VFC<HhdComponentType> = ({
   updateState,
   otherProps,
   tags,
+  isSteamDeckMode,
   default: defaultValue,
 }) => {
   const updating = useUpdateHhdStatePending();
 
-  if (tags && tags.indexOf("advanced") >= 0) {
-    // don't render advanced values
+  if (tags && !shouldRenderChild(tags, isSteamDeckMode)) {
     return null;
   }
 
@@ -70,6 +85,7 @@ const HhdComponent: VFC<HhdComponentType> = ({
           updateState,
           otherProps,
           tags,
+          isSteamDeckMode,
           statePath: statePath ? `${statePath}.${childName}` : `${childName}`,
         });
       });
@@ -239,6 +255,7 @@ export const renderChild = ({
   state,
   updateState,
   otherProps,
+  isSteamDeckMode,
   tags,
   depth,
 }: HhdChildContainerType) => {
@@ -251,6 +268,7 @@ export const renderChild = ({
       parentType={parentType}
       statePath={statePath}
       state={state}
+      isSteamDeckMode={isSteamDeckMode}
       updateState={updateState}
       otherProps={otherProps}
       tags={tags}

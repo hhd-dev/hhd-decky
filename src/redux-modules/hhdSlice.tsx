@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   fetchHhdSettings,
   fetchHhdSettingsState,
+  fetchIsSteamDeckMode,
   updateHhdState,
 } from "./hhdAsyncThunks";
 import { RootState } from "./store";
@@ -31,12 +32,14 @@ export type SettingsType = {
 
 interface HhdState {
   perGameProfilesEnabled: boolean;
+  isSteamDeckMode: boolean;
   settingsState?: any;
   settings?: any;
   loading: { [loadState: string]: "idle" | "pending" | "succeeded" | "failed" };
 }
 
 const initialState = {
+  isSteamDeckMode: true,
   perGameProfilesEnabled: false,
   settingsState: undefined,
   settings: undefined,
@@ -74,6 +77,9 @@ const hhdSlice = createSlice({
       state.settingsState = action.payload;
       state.loading.updateHhdState = "succeeded";
     });
+    builder.addCase(fetchIsSteamDeckMode.fulfilled, (state, action) => {
+      state.isSteamDeckMode = action.payload;
+    });
   },
 });
 
@@ -102,6 +108,10 @@ export const selectAllHhdSettingsLoading = (state: RootState) => {
     selectHhdSettingsLoading(state) === "pending" ||
     selectHhdSettingsStateLoading(state) === "pending"
   );
+};
+
+export const selectIsSteamDeckMode = (state: RootState) => {
+  return state.hhd.isSteamDeckMode;
 };
 
 export default hhdSlice;

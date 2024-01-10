@@ -16,6 +16,7 @@ import { selectAllHhdSettingsLoading } from "./redux-modules/hhdSlice";
 import {
   fetchHhdSettings,
   fetchHhdSettingsState,
+  fetchIsSteamDeckMode,
 } from "./redux-modules/hhdAsyncThunks";
 import HhdState from "./components/HhdState";
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -28,6 +29,7 @@ const Content: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
   useEffect(() => {
     dispatch(fetchHhdSettings());
     dispatch(fetchHhdSettingsState());
+    dispatch(fetchIsSteamDeckMode());
   }, []);
 
   if (loading) {
@@ -57,6 +59,7 @@ export default definePlugin((serverApi: ServerAPI) => {
   // fetches data from hhd backend even if React component tree isn't mounted
   store.dispatch(fetchHhdSettings());
   store.dispatch(fetchHhdSettingsState());
+  store.dispatch(fetchIsSteamDeckMode());
 
   // listen to steam for changes, this runs outside of react
   const unregister = registerForAppLifetimeNotifications();

@@ -3,8 +3,9 @@ import os
 # The decky plugin module is located at decky-loader/plugin
 # For easy intellisense checkout the decky-loader code one directory up
 # or add the `decky-loader/plugin` path to `python.analysis.extraPaths` in `.vscode/settings.json`
-import plugin_settings
 import decky_plugin
+import plugin_settings
+import steam_info
 import yaml
 
 PLUGIN_USER = os.environ["DECKY_USER"]
@@ -21,6 +22,10 @@ class Plugin:
     async def _unload(self):
         decky_plugin.logger.info("Goodbye World!")
         pass
+
+    # checks if steam is running as -steamdeck
+    async def is_steamdeck_mode(self):
+        return steam_info.is_steamdeck_mode()
 
     async def log_to_backend(self, info):
         decky_plugin.logger.info(info)

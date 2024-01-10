@@ -1,6 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { FetchFnResponseOptions, fetchFn } from "./fetchFn";
 import { set } from "lodash";
+import { getServerApi } from "../backend/utils";
+import { ServerAPI } from "decky-frontend-lib";
 
 export const fetchHhdSettings = createAsyncThunk(
   "hhd/fetchHhdSettings",
@@ -50,5 +52,18 @@ export const updateHhdState = createAsyncThunk(
     }
 
     return body;
+  }
+);
+
+export const fetchIsSteamDeckMode = createAsyncThunk(
+  "hhd/is_steamdeck_mode",
+  async () => {
+    const serverApi = getServerApi() as ServerAPI;
+
+    const result = await serverApi.callPluginMethod("is_steamdeck_mode", {});
+    if (result.success) {
+      return Boolean(result.result);
+    }
+    return false;
   }
 );
