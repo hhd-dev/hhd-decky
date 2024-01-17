@@ -1,16 +1,16 @@
 import { getLogInfo } from "../backend/utils";
 
-export const logger = (store: any) => (next: any) => (action: any) => {
+export const logger = (store: any) => (next: any) => async (action: any) => {
   const logInfo = getLogInfo();
 
-  logInfo("before-------------");
-  logInfo(action);
-  logInfo(store.getState());
+  await logInfo("before-------------");
+  await logInfo(action);
+  await logInfo(store.getState());
 
   const result = next(action);
 
-  logInfo("after-------------");
-  logInfo(action);
-  logInfo(store.getState());
+  await logInfo("after-------------");
+  await logInfo(action);
+  await logInfo(store.getState());
   return result;
 };

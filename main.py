@@ -29,6 +29,9 @@ class Plugin:
 
     async def log_to_backend(self, info):
         decky_plugin.logger.info(info)
+    
+    async def retrieve_plugin_version(self):
+        return f'{decky_plugin.DECKY_PLUGIN_VERSION}'
 
     async def retrieve_http_port(self):
         try:

@@ -67,3 +67,19 @@ export const fetchIsSteamDeckMode = createAsyncThunk(
     return false;
   }
 );
+
+export const fetchDeckyPluginVersion = createAsyncThunk(
+  "hhd/retrieve_plugin_version",
+  async () => {
+    const serverApi = getServerApi() as ServerAPI;
+
+    const result = await serverApi.callPluginMethod(
+      "retrieve_plugin_version",
+      {}
+    );
+    if (result.success) {
+      return `${result.result}`;
+    }
+    return "";
+  }
+);

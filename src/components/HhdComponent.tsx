@@ -13,6 +13,7 @@ import HhdDropdown from "./HhdDropdown";
 import HhdModesDropdown from "./HhdModesDropdown";
 import { useUpdateHhdStatePending } from "../hooks/controller";
 import HhdIntSlider from "./HhdIntSlider";
+import HhdDeckyVersion from "./HhdDeckyVersion";
 // import { getLogInfo } from "../backend/utils";
 
 const noop = () => {};
@@ -208,8 +209,8 @@ const HhdComponent: VFC<HhdComponentType> = ({
     // show info, shouldn't be interactive
     const value = get(state, `${statePath}`);
 
-    if (!value) {
-      return null;
+    if (childName === "decky_version") {
+      return <HhdDeckyVersion title={title} />;
     }
 
     return (
