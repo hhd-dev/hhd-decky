@@ -39,9 +39,9 @@ const HhdModesDropdown: FC<DropdownProps> = ({
   });
 
   const currentMode = modes[selectedValue];
-  const { type } = currentMode;
 
-  const children = Object.entries(currentMode.children);
+  const type = currentMode?.type;
+  const children = currentMode ? Object.entries(currentMode.children) : [];
 
   return (
     <>
