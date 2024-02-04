@@ -15,6 +15,7 @@ import { useUpdateHhdStatePending } from "../hooks/controller";
 import HhdIntSlider from "./HhdIntSlider";
 import HhdDeckyVersion from "./HhdDeckyVersion";
 import ArrowToggleButton from "./ArrowToggleButton";
+import ErrorBoundary from "./ErrorBoundary";
 // import { getLogInfo } from "../backend/utils";
 
 const noop = () => {};
@@ -264,20 +265,22 @@ export const renderChild = ({
   depth,
 }: HhdChildContainerType) => {
   return (
-    <HhdComponent
-      key={childOrder}
-      childName={childName}
-      renderChild={renderChild}
-      depth={depth}
-      parentType={parentType}
-      statePath={statePath}
-      state={state}
-      isSteamDeckMode={isSteamDeckMode}
-      updateState={updateState}
-      otherProps={otherProps}
-      tags={tags}
-      {...child}
-    />
+    <ErrorBoundary title={childName}>
+      <HhdComponent
+        key={childOrder}
+        childName={childName}
+        renderChild={renderChild}
+        depth={depth}
+        parentType={parentType}
+        statePath={statePath}
+        state={state}
+        isSteamDeckMode={isSteamDeckMode}
+        updateState={updateState}
+        otherProps={otherProps}
+        tags={tags}
+        {...child}
+      />
+    </ErrorBoundary>
   );
 };
 
