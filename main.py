@@ -5,6 +5,7 @@ import os
 # or add the `decky-loader/plugin` path to `python.analysis.extraPaths` in `.vscode/settings.json`
 import decky_plugin
 import plugin_settings
+import plugin_update
 import steam_info
 import yaml
 
@@ -75,6 +76,14 @@ class Plugin:
         except Exception as e:
             decky_plugin.logger.error(f"failure saving setting {name}={value} {e}")
             return False
+
+    async def ota_update(self):
+        # trigger ota update
+        try:
+            decky_plugin.logger.info('ota update main.py')
+            plugin_update.ota_update()
+        except Exception as e:
+            logging.error(e)
 
     # Migrations that should be performed before entering `_main()`.
     async def _migration(self):

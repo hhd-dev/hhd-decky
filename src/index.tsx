@@ -20,6 +20,7 @@ import {
 } from "./redux-modules/hhdAsyncThunks";
 import HhdState from "./components/HhdState";
 import ErrorBoundary from "./components/ErrorBoundary";
+import OtaUpdates from "./components/OtaUpdates";
 
 const Content: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
   const { displayName } = useSelector(selectCurrentGameInfo);
@@ -39,6 +40,7 @@ const Content: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
   return (
     <>
       <HhdState />
+      {/* <OtaUpdates /> */}
     </>
   );
 };

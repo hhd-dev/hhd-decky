@@ -32,3 +32,7 @@ export const extractCurrentGameInfo = () => {
 
   return { displayName, currentGameId };
 };
+
+export const otaUpdate = async (serverApi: ServerAPI) => {
+  return serverApi.callPluginMethod('ota_update', {});
+};

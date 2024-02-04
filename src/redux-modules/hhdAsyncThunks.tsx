@@ -83,3 +83,22 @@ export const fetchDeckyPluginVersion = createAsyncThunk(
     return "";
   }
 );
+
+export const fetchLatestPluginVersion = createAsyncThunk(
+  "hhd/retrieve_latest_plugin_version",
+  async () => {
+    const serverApi = getServerApi() as ServerAPI;
+
+    const { result } = await serverApi.fetchNoCors(
+      'https://raw.githubusercontent.com/hhd-dev/hhd-decky/main/package.json',
+      { method: 'GET' }
+    );
+  
+    //@ts-ignore
+    const body = result.body as string;
+    if (body && typeof body === 'string') {
+      return JSON.parse(body)['version'];
+    }
+    return '';
+  }
+);

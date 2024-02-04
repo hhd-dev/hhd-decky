@@ -1,18 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "./store";
-import { fetchDeckyPluginVersion } from "./hhdAsyncThunks";
+import { fetchDeckyPluginVersion, fetchLatestPluginVersion } from "./hhdAsyncThunks";
 
 type UiStateType = {
   currentGameId: string;
   currentDisplayName: string;
   pluginVersion: string;
+  latestPluginVersion: string;
 };
 
 const initialState: UiStateType = {
   currentGameId: "default",
   currentDisplayName: "default",
   pluginVersion: "",
+  latestPluginVersion: ""
 };
 
 export const uiSlice = createSlice({
@@ -31,11 +33,18 @@ export const uiSlice = createSlice({
     builder.addCase(fetchDeckyPluginVersion.fulfilled, (state, action) => {
       state.pluginVersion = action.payload;
     });
+    builder.addCase(fetchLatestPluginVersion.fulfilled, (state, action) => {
+      state.latestPluginVersion = action.payload;
+    });
   },
 });
 
 export const selectDeckyPluginVersionNum = (state: RootState) => {
   return state.ui.pluginVersion;
+};
+
+export const selectLatestDeckyPluginVersionNum = (state: RootState) => {
+  return state.ui.latestPluginVersion;
 };
 
 const selectCurrentGameId = (state: RootState) =>
