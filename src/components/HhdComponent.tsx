@@ -14,6 +14,7 @@ import HhdModesDropdown from "./HhdModesDropdown";
 import { useUpdateHhdStatePending } from "../hooks/controller";
 import HhdIntSlider from "./HhdIntSlider";
 import HhdDeckyVersion from "./HhdDeckyVersion";
+import ArrowToggleButton from "./ArrowToggleButton";
 // import { getLogInfo } from "../backend/utils";
 
 const noop = () => {};
@@ -97,7 +98,9 @@ const HhdComponent: VFC<HhdComponentType> = ({
     // root container type
     return (
       <PanelSection title={title}>
-        {renderChild && typeof renderChild === "function" && renderChildren()}
+        <ArrowToggleButton cacheKey={`${statePath} ${title}`}>
+          {renderChild && typeof renderChild === "function" && renderChildren()}
+        </ArrowToggleButton>
       </PanelSection>
     );
   }
