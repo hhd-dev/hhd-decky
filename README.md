@@ -62,8 +62,6 @@ Afterwards, you can place the entire `hhd-decky` folder in the `~/homebrew/plugi
 
 ```bash
 sudo systemctl restart plugin_loader.service
-
-sudo systemctl reboot
 ```
 
 You can see an example in [reload.sh](./reload.sh)
