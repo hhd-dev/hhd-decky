@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # does the following:
 # - hhd Decky Plugin
-VERSION=${VERSION:-"LATEST"}
+VERSION=${PIN_VERSION:-"LATEST"}
 if [ "$EUID" -eq 0 ]
   then echo "Please do not run as root"
   exit
