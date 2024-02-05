@@ -17,7 +17,7 @@ sudo rm -rf "$HOME/homebrew/plugins/hhd-decky"
 echo "installing hhd plugin"
 
 FINAL_URL='https://api.github.com/repos/hhd-dev/hhd-decky/releases/latest'
-if [ VERSION != "LATEST" ] ; then
+if [ $VERSION != "LATEST" ] ; then
   FINAL_URL="https://api.github.com/repos/hhd-dev/hhd-decky/releases/tags/v${VERSION}"
 fi
 
