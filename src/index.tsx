@@ -40,9 +40,6 @@ const Content: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
   return (
     <>
       <HhdState />
-      <ErrorBoundary title="OTA Updates">
-        <OtaUpdates />
-      </ErrorBoundary>
     </>
   );
 };
@@ -52,6 +49,9 @@ const AppContainer: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
     <Provider store={store}>
       <ErrorBoundary title="App">
         <Content serverAPI={serverAPI} />
+      </ErrorBoundary>
+      <ErrorBoundary title="OTA Updates">
+        <OtaUpdates />
       </ErrorBoundary>
     </Provider>
   );
