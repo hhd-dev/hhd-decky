@@ -40,6 +40,13 @@ export const shouldRenderChild = (tags: string[], isSteamDeckMode: boolean) => {
     return false;
   }
 
+  if (
+    tags.indexOf("hhd-update-decky") >= 0 ||
+    tags.indexOf("hhd-version-display-decky") >= 0
+  ) {
+    return false;
+  }
+
   if (isSteamDeckMode && tags.indexOf("non_steamdeck") >= 0) {
     // don't render bpm only values
     return false;
@@ -212,11 +219,6 @@ const HhdComponent: VFC<HhdComponentType> = ({
   if (type === "display" && title) {
     // show info, shouldn't be interactive
     const value = get(state, `${statePath}`);
-
-    if (childName === "decky_version") {
-      return null;
-      // return <HhdDeckyVersion title={title} />;
-    }
 
     return (
       <Field disabled label={title}>
