@@ -40,9 +40,9 @@ const Content: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
   return (
     <>
       <HhdState />
-      <ErrorBoundary title="OTA Updates">
+      {/* <ErrorBoundary title="OTA Updates">
         <OtaUpdates />
-      </ErrorBoundary>
+      </ErrorBoundary> */}
     </>
   );
 };
