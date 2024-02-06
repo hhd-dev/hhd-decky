@@ -81,6 +81,6 @@ sudo rm -rf $HOME/homebrew/logs/hhd-decky/*
 sudo cp -r ../hhd-decky/ $HOME/homebrew/plugins/
 sudo systemctl restart plugin_loader.service
 
-# Or use premade sh script
-. reload.sh
+# Or use premade sh script with pnpm
+./reload.sh
 ```
