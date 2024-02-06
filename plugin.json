@@ -1,7 +1,7 @@
 {
   "name": "Handheld Daemon",
   "author": "Aarron Lee",
-  "flags": ["_root"],
+  "flags": ["root"],
   "publish": {
     "tags": [],
     "description": "Decky frontend for hhd (Handheld Daemon)",
