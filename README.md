@@ -40,10 +40,8 @@ sudo systemctl restart plugin_loader.service
 If the plugin didn't show up in Decky, restart your machine
 
 ## Manual build
-
 Dependencies:
-
-- Node.js v16.14+ and pnpm installed
+- Node.js v16.14+ 
 
 ```bash
 git clone https://github.com/hhd-dev/hhd-decky.git
@@ -72,12 +70,17 @@ Or by using npm and frozen dependencies (not officially supported by Decky):
 # Clone and symlink to your homebrew dir
 git clone https://github.com/hhd-dev/hhd-decky.git
 cd hhd-decky
-sudo ln -s $PWD $HOME/homebrew/plugins/hhd-decky
 
 # Install deps and build
 npm ci
-npm run build
 
-# Restart decky loader
+# Build, copy, reload
+npm run build
+sudo rm -r $HOME/homebrew/plugins/hhd-decky/
+sudo rm -rf $HOME/homebrew/logs/hhd-decky/*
+sudo cp -r ../hhd-decky/ $HOME/homebrew/plugins/
 sudo systemctl restart plugin_loader.service
+
+# Or use premade sh script
+. reload.sh
 ```
