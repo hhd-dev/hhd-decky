@@ -65,3 +65,19 @@ sudo systemctl restart plugin_loader.service
 ```
 
 You can see an example in [reload.sh](./reload.sh)
+
+### Alternative manual build
+Or by using npm and frozen dependencies (not officially supported by Decky):
+```bash
+# Clone and symlink to your homebrew dir
+git clone https://github.com/hhd-dev/hhd-decky.git
+cd hhd-decky
+sudo ln -s $PWD $HOME/homebrew/plugins/hhd-decky
+
+# Install deps and build
+npm ci
+npm run build
+
+# Restart decky loader
+sudo systemctl restart plugin_loader.service
+```
