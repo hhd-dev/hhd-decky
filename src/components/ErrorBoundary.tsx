@@ -1,7 +1,13 @@
 //@ts-nocheck
-import { Field } from "decky-frontend-lib";
+import { ButtonItem, Field, PanelSection } from "decky-frontend-lib";
 import { Component } from "react";
 import { getLogInfo } from "../backend/utils";
+import { store } from "../redux-modules/store";
+import {
+  fetchHhdSettings,
+  fetchHhdSettingsState,
+  fetchIsSteamDeckMode,
+} from "../redux-modules/hhdAsyncThunks";
 
 type PropsType = {
   children: any;
@@ -34,9 +40,33 @@ class ErrorBoundary extends Component<PropsType, StateType> {
   }
   render() {
     if (this.state.hasError) {
+      if (this.props.title === "App") {
+        return (
+          <>
+            <PanelSection title="App Error">
+              <Field disabled label="Error">
+                {this.props.title} failed to render
+              </Field>
+              <ButtonItem
+                onClick={() => {
+                  store.dispatch(fetchHhdSettings());
+                  store.dispatch(fetchHhdSettingsState());
+                  store.dispatch(fetchIsSteamDeckMode());
+                  this.setState({ hasError: false });
+                }}
+                layout="below"
+                bottomSeparator="none"
+              >
+                Refresh
+              </ButtonItem>
+            </PanelSection>
+          </>
+        );
+      }
+
       return (
         <Field disabled label="Error">
-          Error while trying to render {this.props.title}
+          {this.props.title} failed to render
         </Field>
       );
     }
