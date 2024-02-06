@@ -214,7 +214,8 @@ const HhdComponent: VFC<HhdComponentType> = ({
     const value = get(state, `${statePath}`);
 
     if (childName === "decky_version") {
-      return <HhdDeckyVersion title={title} />;
+      return null;
+      // return <HhdDeckyVersion title={title} />;
     }
 
     return (
