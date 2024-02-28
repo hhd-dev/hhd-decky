@@ -1,4 +1,4 @@
-import { DropdownItem } from "decky-frontend-lib";
+import { DropdownItem, PanelSectionRow } from "decky-frontend-lib";
 import { FC } from "react";
 
 type DropdownProps = {
@@ -29,24 +29,26 @@ const HhdDropdown: FC<DropdownProps> = ({
   });
 
   return (
-    <DropdownItem
-      label={title}
-      description={hint}
-      rgOptions={dropdownOptions.map((o) => {
-        return {
-          data: o.data,
-          label: o.label,
-          value: o.value,
-        };
-      })}
-      selectedOption={
-        dropdownOptions.find((o) => {
-          return o.data === selectedValue;
-        })?.data || defaultValue
-      }
-      onChange={onChange}
-      {...otherProps}
-    />
+    <PanelSectionRow>
+      <DropdownItem
+        label={title}
+        description={hint}
+        rgOptions={dropdownOptions.map((o) => {
+          return {
+            data: o.data,
+            label: o.label,
+            value: o.value,
+          };
+        })}
+        selectedOption={
+          dropdownOptions.find((o) => {
+            return o.data === selectedValue;
+          })?.data || defaultValue
+        }
+        onChange={onChange}
+        {...otherProps}
+      />
+    </PanelSectionRow>
   );
 };
 
