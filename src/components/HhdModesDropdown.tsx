@@ -1,4 +1,4 @@
-import { DropdownItem } from "decky-frontend-lib";
+import { DropdownItem, PanelSectionRow } from "decky-frontend-lib";
 import { FC } from "react";
 
 type DropdownProps = {
@@ -44,7 +44,7 @@ const HhdModesDropdown: FC<DropdownProps> = ({
   const children = currentMode ? Object.entries(currentMode.children) : [];
 
   return (
-    <>
+    <PanelSectionRow>
       <DropdownItem
         label={title}
         description={hint}
@@ -83,7 +83,7 @@ const HhdModesDropdown: FC<DropdownProps> = ({
             otherProps: additionalProps,
           });
         })}
-    </>
+    </PanelSectionRow>
   );
 };
 

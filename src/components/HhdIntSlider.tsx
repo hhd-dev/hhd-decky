@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { SliderField } from "decky-frontend-lib";
+import { PanelSectionRow, SliderField } from "decky-frontend-lib";
 
 type PropType = {
   value: number;
@@ -31,7 +31,7 @@ const HhdIntSlider: FC<PropType> = ({
   };
 
   return (
-    <>
+    <PanelSectionRow>
       <SliderField
         label={title}
         value={sliderValue}
@@ -44,7 +44,7 @@ const HhdIntSlider: FC<PropType> = ({
         {...extraProps}
         {...otherProps}
       />
-    </>
+    </PanelSectionRow>
   );
 };
 

@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { SliderField, NotchLabel } from "decky-frontend-lib";
+import { SliderField, NotchLabel, PanelSectionRow } from "decky-frontend-lib";
 
 type PropType = {
   value: number;
@@ -34,7 +34,7 @@ const HhdSlider: FC<PropType> = ({
     options.indexOf(value) >= 0 ? options.indexOf(value) : defaultValue;
 
   return (
-    <>
+    <PanelSectionRow>
       <SliderField
         label={title}
         value={sliderValue}
@@ -49,7 +49,7 @@ const HhdSlider: FC<PropType> = ({
         {...otherProps}
         {...extraProps}
       />
-    </>
+    </PanelSectionRow>
   );
 };
 

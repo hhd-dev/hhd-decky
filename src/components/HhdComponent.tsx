@@ -13,12 +13,11 @@ import HhdDropdown from "./HhdDropdown";
 import HhdModesDropdown from "./HhdModesDropdown";
 import { useUpdateHhdStatePending } from "../hooks/controller";
 import HhdIntSlider from "./HhdIntSlider";
-import HhdDeckyVersion from "./HhdDeckyVersion";
 import ArrowToggleButton from "./ArrowToggleButton";
 import ErrorBoundary from "./ErrorBoundary";
 // import { getLogInfo } from "../backend/utils";
 
-const noop = () => {};
+const noop = () => { };
 
 interface HhdComponentType extends SettingsType {
   renderChild?: any;
@@ -142,18 +141,20 @@ const HhdComponent: VFC<HhdComponentType> = ({
     // toggle component
     const checked = get(state, `${statePath}`, defaultValue);
     return (
-      <ToggleField
-        label={title}
-        checked={Boolean(checked)}
-        onChange={(enabled) => {
-          if (updating) {
-            return;
-          }
-          return updateState(`${statePath}`, enabled);
-        }}
-        disabled={updating}
-        {...otherProps}
-      />
+      <PanelSectionRow>
+        <ToggleField
+          label={title}
+          checked={Boolean(checked)}
+          onChange={(enabled) => {
+            if (updating) {
+              return;
+            }
+            return updateState(`${statePath}`, enabled);
+          }}
+          disabled={updating}
+          {...otherProps}
+        />
+      </PanelSectionRow>
     );
   }
 
