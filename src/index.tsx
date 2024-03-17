@@ -33,10 +33,6 @@ const Content: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
     dispatch(fetchIsSteamDeckMode());
   }, []);
 
-  if (loading) {
-    return null;
-  }
-
   return (
     <>
       <HhdState />
