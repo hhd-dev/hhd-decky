@@ -17,7 +17,7 @@ import ArrowToggleButton from "./ArrowToggleButton";
 import ErrorBoundary from "./ErrorBoundary";
 // import { getLogInfo } from "../backend/utils";
 
-const noop = () => { };
+const noop = () => {};
 
 interface HhdComponentType extends SettingsType {
   renderChild?: any;
@@ -220,6 +220,10 @@ const HhdComponent: VFC<HhdComponentType> = ({
   if (type === "display" && title) {
     // show info, shouldn't be interactive
     const value = get(state, `${statePath}`);
+
+    if (!Boolean(value)) {
+      return null;
+    }
 
     return (
       <Field disabled label={title}>
