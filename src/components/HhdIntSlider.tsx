@@ -38,6 +38,7 @@ const HhdIntSlider: FC<PropType> = ({
         min={min}
         max={max}
         step={1}
+        description={hint}
         showValue
         bottomSeparator={"none"}
         onChange={onChange}

@@ -144,6 +144,7 @@ const HhdComponent: VFC<HhdComponentType> = ({
       <PanelSectionRow>
         <ToggleField
           label={title}
+          description={hint}
           checked={Boolean(checked)}
           onChange={(enabled) => {
             if (updating) {
@@ -172,6 +173,7 @@ const HhdComponent: VFC<HhdComponentType> = ({
         defaultValue={defaultValue}
         options={options}
         title={title}
+        hint={hint}
         handleSliderChange={updating ? noop : handleSliderChange}
         otherProps={otherProps}
       />
@@ -191,6 +193,7 @@ const HhdComponent: VFC<HhdComponentType> = ({
         value={value}
         min={min}
         max={max}
+        hint={hint}
         title={title}
         handleSliderChange={updating ? noop : handleSliderChange}
         otherProps={otherProps}

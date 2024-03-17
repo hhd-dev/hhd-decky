@@ -46,6 +46,7 @@ const HhdSlider: FC<PropType> = ({
         notchTicksVisible={true}
         bottomSeparator={"none"}
         onChange={onChange}
+        description={hint}
         {...otherProps}
         {...extraProps}
       />
