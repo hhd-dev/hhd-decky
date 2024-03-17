@@ -6,6 +6,7 @@ import {
   updateHhdState,
 } from "./hhdAsyncThunks";
 import { RootState } from "./store";
+import { get } from "lodash";
 
 export type SettingType =
   | "bool"
@@ -112,6 +113,10 @@ export const selectAllHhdSettingsLoading = (state: RootState) => {
 
 export const selectIsSteamDeckMode = (state: RootState) => {
   return state.hhd.isSteamDeckMode;
+};
+
+export const selectHhdUiVersion = (state: RootState) => {
+  return get(state, "hhd.settings.hhd.settings.children.version_ui", "");
 };
 
 export default hhdSlice;

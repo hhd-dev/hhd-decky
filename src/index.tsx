@@ -1,5 +1,12 @@
-import { definePlugin, ServerAPI, staticClasses } from "decky-frontend-lib";
-import { useEffect, VFC } from "react";
+import {
+  definePlugin,
+  PanelSection,
+  PanelSectionRow,
+  ServerAPI,
+  staticClasses,
+  ToggleField,
+} from "decky-frontend-lib";
+import { useEffect, useState, VFC } from "react";
 import { FaGamepad } from "react-icons/fa";
 import {
   registerForAppLifetimeNotifications,
@@ -12,7 +19,10 @@ import {
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { AppDispatch, store } from "./redux-modules/store";
 import { selectCurrentGameInfo } from "./redux-modules/uiSlice";
-import { selectAllHhdSettingsLoading } from "./redux-modules/hhdSlice";
+import {
+  selectAllHhdSettingsLoading,
+  selectHhdUiVersion,
+} from "./redux-modules/hhdSlice";
 import {
   fetchHhdSettings,
   fetchHhdSettingsState,
@@ -35,6 +45,7 @@ const Content: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
 
   return (
     <>
+      <OneTimeHddOverlayNotification />
       <HhdState />
     </>
   );
@@ -52,6 +63,43 @@ const AppContainer: VFC<{ serverAPI: ServerAPI }> = ({ serverAPI }) => {
     </Provider>
   );
 };
+
+const ONE_TIME_NOTIFICATION_KEY = "hhd-decky-ONE_TIME_NOTIFICATION_KEY";
+
+function OneTimeHddOverlayNotification() {
+  const hasVersionUi = useSelector(selectHhdUiVersion);
+  const [checked, setChecked] = useState(
+    window.localStorage.getItem(ONE_TIME_NOTIFICATION_KEY) === "true" || false
+  );
+
+  if (!Boolean(hasVersionUi)) {
+    return null;
+  }
+
+  const onChange = (change: boolean) => {
+    window.localStorage.setItem(ONE_TIME_NOTIFICATION_KEY, `${change}`);
+    setChecked(change);
+  };
+
+  if (checked) {
+    return null;
+  }
+
+  return (
+    <PanelSection>
+      <PanelSectionRow>
+        <ToggleField
+          label={"Notice: New hhd overlay now available!"}
+          description={
+            "Double tap or hold the QAM/Side Menu button to open the new overlay. Click this toggle to dismiss the notice"
+          }
+          checked={checked}
+          onChange={onChange}
+        />
+      </PanelSectionRow>
+    </PanelSection>
+  );
+}
 
 export default definePlugin((serverApi: ServerAPI) => {
   registerServerApi(serverApi);
