@@ -1,6 +1,6 @@
 {
   "name": "hhd-decky",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "decky frontend for hhd",
   "scripts": {
     "build": "shx rm -rf dist && rollup -c",
@@ -54,5 +54,6 @@
         "react-dom"
       ]
     }
-  }
+  },
+  "packageManager": "pnpm@8.15.4+sha1.c85a4305534f76d461407b59277b954bac97b5c4"
 }
